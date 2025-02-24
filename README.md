@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Tipple Project
 
-## Getting Started
+## Overview
+Tipple is a platform that pairs, manages, and delivers wine using AI. This project is built with Next.js and uses Supabase for authentication and database management.
 
-First, run the development server:
+## TODO List
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+### Completed
+- [x] Add Supabase
+  - [x] Set up Supabase project
+  - [x] Configure Supabase client
+  - [x] Implement authentication with Supabase
+- [x] Add Authentication
+  - [x] Create signup page
+  - [x] Create login page
+  - [x] Implement user session management
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Next Steps
+- [ ] Implement Dashboard
+  - [ ] Design dashboard layout
+  - [ ] Fetch user-specific data from Supabase
+  - [ ] Display user information and statistics
+- [ ] Develop Wine Pairing Backend
+  - [ ] Set up backend API for wine pairing
+  - [ ] Integrate AI service for wine pairing recommendations
+  - [ ] Create endpoints for pairing requests
+- [ ] Integrate Stripe for Payments
+  - [ ] Set up Stripe account and obtain API keys
+  - [ ] Implement Stripe checkout for subscription plans
+  - [ ] Handle payment success and failure scenarios
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+### Future Enhancements
+- [ ] Improve UI/UX
+  - [ ] Add animations and transitions
+  - [ ] Optimize for mobile devices
+- [ ] Add User Profile Management
+  - [ ] Allow users to update their profile information
+  - [ ] Implement profile picture upload
+- [ ] Implement Notifications
+  - [ ] Set up email notifications for important events
+  - [ ] Add in-app notifications for user actions
