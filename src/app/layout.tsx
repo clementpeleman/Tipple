@@ -39,8 +39,9 @@ export default function RootLayout({
             <Providers>
               <Toaster />
                 {children}
-              </Providers>
-            <ThemeToggle />
+                <ThemeToggle />
+            </Providers>
+
         </NuqsAdapter>
       </body>
     </html>

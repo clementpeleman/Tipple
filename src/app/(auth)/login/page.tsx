@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { login } from './actions'
+import { login } from "./actions";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -23,7 +23,8 @@ export default function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        {/* Voeg formAction toe aan <form> zodat Enter correct werkt */}
+        <form action={login}>
           <div className="grid gap-4">
             <Button variant="outline" className="w-full">
               <Icons.google className="w-4 h-4 mr-2" />
@@ -63,9 +64,7 @@ export default function LoginForm() {
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
-            <Button type="submit" formAction={login} className="w-full">
-              Login
-            </Button>
+            <Button type="submit" className="w-full">Login</Button>
           </div>
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}

@@ -1,52 +1,39 @@
-'use server'
+"use server";
 
-import { revalidatePath } from 'next/cache'
-import { redirect } from 'next/navigation'
-
-import { createClient } from '@/utils/supabase/server'
-
-export async function login(formData: FormData) {
-  const supabase = await createClient()
-
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
-  }
-
-  const { error } = await supabase.auth.signInWithPassword(data)
-
-  if (error) {
-    redirect('/error')
-  }
-
-  revalidatePath('/', 'layout')
-  redirect('/')
-}
+import { createClient } from "@/utils/supabase/server";
+import { redirect } from "next/navigation";
 
 export async function signup(formData: FormData) {
-  const supabase = await createClient()
+  const supabase = createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+  if (!supabase || !(await supabase).auth) {
+    throw new Error("Supabase client not initialized correctly.");
+  }
+
+  const email = formData.get("email") as string;
+  const password = formData.get("password") as string;
+  const firstName = formData.get("first-name") as string;
+  const lastName = formData.get("last-name") as string;
+
+  if (!email || !password || !firstName || !lastName) {
+    throw new Error("All fields are required.");
+  }
+
+  const { error } = await (await supabase).auth.signUp({
+    email,
+    password,
     options: {
       data: {
-        first_name: formData.get("first-name") as string,
-        last_name: formData.get("last-name") as string,
+        first_name: firstName,
+        last_name: lastName,
       },
     },
-  }
-
-  const { error } = await supabase.auth.signUp(data)
+  });
 
   if (error) {
-    redirect('/error')
+    console.error("Signup error:", error.message);
+    redirect("/error");
   }
 
-  revalidatePath('/', 'layout')
-  redirect('/')
+  redirect("/");
 }

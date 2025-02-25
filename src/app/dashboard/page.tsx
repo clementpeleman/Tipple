@@ -1,31 +1,10 @@
-'use client';
-
-import { useEffect, useState } from 'react';
-import { createClient } from '@/utils/supabase/client';
-import { useRouter } from 'next/navigation';
-
-const supabase = createClient();
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Dashboard() {
-  const [user, setUser] = useState(null);
-  const router = useRouter();
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      // console.log('Dashboard: User', user);
-
-      if (!user) {
-        console.log('Dashboard: Redirecting to home');
-        router.push('/login');
-      } else {
-        console.log('Dashboard: Redirecting to overview');
-        router.push('/dashboard/overview');
-      }
-    };
-
-    fetchUser();
-  }, []);
-
-  return <div>Loading...</div>; // Eventueel een loading state tonen
+  return (
+    <div className="flex items-center justify-center h-screen">
+      <Skeleton className="w-16 h-16" />
+    </div>
+  );
 }

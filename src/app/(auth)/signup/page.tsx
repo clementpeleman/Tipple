@@ -22,7 +22,7 @@ export default function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        <form>
+        <form action={signup}>
           <div className="grid gap-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="grid gap-2">
@@ -48,7 +48,7 @@ export default function LoginForm() {
               <Label htmlFor="password">Password</Label>
               <Input id="password" name="password" type="password" />
             </div>
-            <Button type="submit" formAction={signup} className="w-full">
+            <Button type="submit" className="w-full">
               Create an account
             </Button>
             <Button variant="outline" className="w-full">

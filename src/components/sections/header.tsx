@@ -55,7 +55,7 @@ export default function Header() {
 
             <div className="gap-2 flex">
               {username ? (
-                <Link href="/dashboard" className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto text-foreground flex gap-2")}>
+                <Link href="/dashboard/overview" className={cn(buttonVariants({ variant: "outline" }), "w-full sm:w-auto text-foreground flex gap-2")}>
                   {username}&apos;s Dashboard
                   <ArrowRight className="h-4 w-4" />
                 </Link>
