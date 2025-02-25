@@ -76,7 +76,7 @@ function HeroTitles() {
         ))}
       </motion.h1>
       <motion.p
-        className="mx-auto max-w-4xl text-center text-lg leading-7 text-muted-foreground sm:text-xl sm:leading-9 text-balance"
+        className="mx-auto max-w-xs lg:max-w-4xl text-center text-md leading-7 text-muted-foreground sm:text-xl sm:leading-9 text-balance"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
@@ -154,7 +154,7 @@ export default function Hero2() {
 
   return (
     <section id="hero">
-      <div className="relative flex w-full flex-col items-center justify-start px-4 pt-32 sm:px-6 sm:pt-24 md:pt-32 lg:px-8">
+      <div className="relative flex w-full flex-col items-center justify-start px-4 pt-24 sm:px-6 sm:pt-24 md:pt-32 lg:px-8">
         <HeroPill />
         <HeroTitles />
         <HeroCTA />
@@ -168,7 +168,7 @@ export default function Hero2() {
           color={color}
           refresh
         />
-        <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/3 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
+        <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/5 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
       </div>
     </section>
   );
