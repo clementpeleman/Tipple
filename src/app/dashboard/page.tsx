@@ -1,28 +1,31 @@
-"use client"
+'use client';
 
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { createClient } from "@/utils/supabase/client";
+import { useEffect, useState } from 'react';
+import { createClient } from '@/utils/supabase/client';
+import { useRouter } from 'next/navigation';
 
 const supabase = createClient();
 
 export default function Dashboard() {
+  const [user, setUser] = useState(null);
   const router = useRouter();
 
-  const handleLogout = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-      console.error("Error logging out:", error.message);
-    } else {
-      console.log("Logged out successfully");
-      router.push("/"); // Redirect to the main page
-    }
-  };
+  useEffect(() => {
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      // console.log('Dashboard: User', user);
 
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <Button onClick={handleLogout}>Logout</Button>
-    </div>
-  );
+      if (!user) {
+        console.log('Dashboard: Redirecting to home');
+        router.push('/login');
+      } else {
+        console.log('Dashboard: Redirecting to overview');
+        router.push('/dashboard/overview');
+      }
+    };
+
+    fetchUser();
+  }, []);
+
+  return <div>Loading...</div>; // Eventueel een loading state tonen
 }

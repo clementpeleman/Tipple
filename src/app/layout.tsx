@@ -1,8 +1,11 @@
-import { TailwindIndicator } from "@/components/tailwind-indicator";
-import { ThemeProvider } from "@/components/theme-provider";
+
 import { ThemeToggle } from "@/components/theme-toggle";
+import Providers from '@/components/layout/providers';
+import { Toaster } from '@/components/ui/sonner';
 import { cn, constructMetadata } from "@/lib/utils";
+import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import type { Metadata, Viewport } from "next";
+import NextTopLoader from 'nextjs-toploader';
 import "./globals.css";
 
 export const metadata: Metadata = constructMetadata({});
@@ -31,15 +34,14 @@ export default function RootLayout({
           "min-h-screen bg-background antialiased w-full mx-auto scroll-smooth"
         )}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-        >
-          {children}
-          <ThemeToggle />
-          <TailwindIndicator />
-        </ThemeProvider>
+        <NextTopLoader showSpinner={false} />
+        <NuqsAdapter>
+            <Providers>
+              <Toaster />
+                {children}
+              </Providers>
+            <ThemeToggle />
+        </NuqsAdapter>
       </body>
     </html>
   );

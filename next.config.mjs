@@ -1,7 +1,20 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    remotePatterns: [{ hostname: "localhost" }, { hostname: "randomuser.me" }],
+    remotePatterns: [
+    {
+      protocol: 'https',
+      hostname: 'utfs.io',
+      port: ''
+    },
+    {
+      protocol: 'https',
+      hostname: 'api.slingacademy.com',
+      port: ''
+    },
+    {
+      hostname: 'randomuser.me'
+    }],
   },
 };
 
