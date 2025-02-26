@@ -49,7 +49,12 @@ const formSchema = z.object({
     message: 'Product name must be at least 2 characters.'
   }),
   category: z.string(),
-  price: z.number(),
+  price: z.preprocess((value) => {
+    if (typeof value === 'string') {
+      return parseInt(value, 10);
+    }
+    return value;
+  }, z.number().int().positive({ message: 'Price must be a positive integer.' })),
   description: z.string().min(10, {
     message: 'Description must be at least 10 characters.'
   })
@@ -71,7 +76,7 @@ export default function ProductForm({
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    values: defaultValues
+    defaultValues
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -144,13 +149,14 @@ export default function ProductForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='beauty'>Beauty Products</SelectItem>
-                        <SelectItem value='electronics'>Electronics</SelectItem>
-                        <SelectItem value='clothing'>Clothing</SelectItem>
-                        <SelectItem value='home'>Home & Garden</SelectItem>
-                        <SelectItem value='sports'>
-                          Sports & Outdoors
-                        </SelectItem>
+                        <SelectItem value='red-wine'>Red Wine</SelectItem>
+                        <SelectItem value='white-wine'>White Wine</SelectItem>
+                        <SelectItem value='rose-wine'>Rosé Wine</SelectItem>
+                        <SelectItem value='sparkling-wine'>Sparkling Wine</SelectItem>
+                        <SelectItem value='dessert-wine'>Dessert Wine</SelectItem>
+                        <SelectItem value='fortified-wine'>Fortified Wine</SelectItem>
+                        <SelectItem value='organic-wine'>Organic Wine</SelectItem>
+                        <SelectItem value='biodynamic-wine'>Biodynamic Wine</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -166,7 +172,7 @@ export default function ProductForm({
                     <FormControl>
                       <Input
                         type='number'
-                        step='0.01'
+                        step='1'
                         placeholder='Enter price'
                         {...field}
                       />

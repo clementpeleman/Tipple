@@ -1,5 +1,9 @@
+"use client"
+
 import Link from "next/link";
 import { login } from "./actions";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 import { Icons } from "@/components/icons";
 import { Button } from "@/components/ui/button";
@@ -14,6 +18,28 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function LoginForm() {
+  const router = useRouter();
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    setLoading(true);
+    setError(null);
+
+    const formData = new FormData(event.currentTarget as HTMLFormElement);
+    const result = await login(formData);
+
+    setLoading(false);
+
+    if (result.success) {
+      router.push("/dashboard/overview"); // Client-side navigation
+    } else {
+      setError(result.error ?? "An unknown error occurred");
+      router.push("/error"); // Or handle error display differently
+    }
+  };
+
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
@@ -23,8 +49,7 @@ export default function LoginForm() {
         </CardDescription>
       </CardHeader>
       <CardContent>
-        {/* Voeg formAction toe aan <form> zodat Enter correct werkt */}
-        <form action={login}>
+        <form onSubmit={handleSubmit}>
           <div className="grid gap-4">
             <Button variant="outline" className="w-full">
               <Icons.google className="w-4 h-4 mr-2" />
@@ -64,8 +89,11 @@ export default function LoginForm() {
               </div>
               <Input id="password" name="password" type="password" required />
             </div>
-            <Button type="submit" className="w-full">Login</Button>
+            <Button type="submit" className="w-full" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
+            </Button>
           </div>
+          {error && <div className="text-red-500 mt-2">{error}</div>}
           <div className="mt-4 text-center text-sm">
             Don&apos;t have an account?{" "}
             <Link href="/signup" className="underline">

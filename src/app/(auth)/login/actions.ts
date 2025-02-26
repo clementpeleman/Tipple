@@ -1,12 +1,11 @@
 "use server";
 
 import { createClient } from "@/utils/supabase/server";
-import { redirect } from "next/navigation";
 
 export async function login(formData: FormData) {
   const supabase = createClient();
 
-  // Haal de email en wachtwoord op vanuit formData
+  // Retrieve email and password from formData
   const email = formData.get("email") as string;
   const password = formData.get("password") as string;
 
@@ -18,8 +17,8 @@ export async function login(formData: FormData) {
 
   if (error) {
     console.error("Login error:", error.message);
-    redirect("/error");
+    return { success: false, error: error.message };
   }
 
-  redirect("/");
+  return { success: true };
 }
