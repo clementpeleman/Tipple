@@ -1,6 +1,5 @@
 import { createClient } from '@/utils/supabase/server';
 import { Wine } from './data'; // Hergebruik het Wine type
-import { userAgent } from 'next/server';
 
 const supabase = await createClient();
 
