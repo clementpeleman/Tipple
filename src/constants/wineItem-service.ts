@@ -1,8 +1,8 @@
-import { createClient } from '@/utils/supabase/client';
+import { createClient } from '@/utils/supabase/server';
 import { Wine } from './data'; // Hergebruik het Wine type
 import { userAgent } from 'next/server';
 
-const supabase = createClient();
+const supabase = await createClient();
 
 export const wineService = {
   async getAllWines(): Promise<Wine[]> {
