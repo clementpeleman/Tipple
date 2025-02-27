@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import { NextResponse } from 'next/server';
 import { Wine } from '@/constants/data';  // Zorg ervoor dat je het type Wine importeert
 
+// GET - Verkrijg alle wijnen van de ingelogde gebruiker
 export async function GET() {
   const supabase = await createClient();
 
@@ -22,6 +23,7 @@ export async function GET() {
   return NextResponse.json(data);
 }
 
+// GET - Verkrijg een specifieke wijn op basis van ID
 export async function GET_WINE({ params }: { params: { id: string } }) {
   const supabase = await createClient();
 
@@ -44,6 +46,7 @@ export async function GET_WINE({ params }: { params: { id: string } }) {
   return NextResponse.json(data);
 }
 
+// POST - Voeg een nieuwe wijn toe voor de ingelogde gebruiker
 export async function POST(request: Request) {
   const supabase = await createClient();
   const wine = await request.json();

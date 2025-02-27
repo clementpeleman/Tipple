@@ -1,8 +1,9 @@
-import { createServerClient } from '@supabase/ssr'
-// import { cookies } from 'next/headers'
+// Import de benodigde libraries voor server-side
+import { createServerClient } from '@supabase/ssr';
+import { cookies } from 'next/headers'; // Deze werkt alleen in een Server Component of API-route.
 
 export async function createClient() {
-  const cookieStore = await require('next/headers').cookies()
+  const cookieStore = cookies(); // Verkrijg cookies in een server-side context
 
   return createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -10,20 +11,18 @@ export async function createClient() {
     {
       cookies: {
         getAll() {
-          return cookieStore.getAll()
+          return cookieStore.getAll(); // Verkrijg alle cookies
         },
         setAll(cookiesToSet) {
           try {
             cookiesToSet.forEach(({ name, value, options }) =>
-              cookieStore.set(name, value, options)
-            )
+              cookieStore.set(name, value, options) // Stel cookies in
+            );
           } catch {
-            // The `setAll` method was called from a Server Component.
-            // This can be ignored if you have middleware refreshing
-            // user sessions.
+            // Dit kan worden genegeerd als de `setAll` wordt aangeroepen vanuit een Server Component
           }
         },
       },
     }
-  )
+  );
 }
