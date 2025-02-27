@@ -1,0 +1,49 @@
+import { createClient } from '@/utils/supabase/client';
+import { Wine } from './data'; // Hergebruik het Wine type
+
+const supabase = createClient();
+
+export const wineService = {
+  async getAllWines(): Promise<Wine[]> {
+    const { data, error } = await supabase
+      .from('wines')
+      .select('*');
+
+    if (error) {
+      console.error('Error fetching wines:', error);
+      throw error;
+    }
+
+    return data as Wine[];
+  },
+
+  async getWineById(id: number): Promise<Wine | null> {
+    const { data, error } = await supabase
+      .from('wines')
+      .select('*')
+      .eq('id', id)
+      .single();
+
+    if (error) {
+      console.error(`Error fetching wine with ID ${id}:`, error);
+      return null;
+    }
+
+    return data as Wine;
+  },
+
+  async addWine(wine: Omit<Wine, 'id' | 'created_at' | 'updated_at'> & { user_id: string }): Promise<Wine> {
+    const { data, error } = await supabase
+      .from('wines')
+      .insert([wine])
+      .select()
+      .single();
+  
+    if (error) {
+      console.error('Error adding wine:', error);
+      throw error;
+    }
+  
+    return data as Wine;
+  }  
+};

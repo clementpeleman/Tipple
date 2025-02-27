@@ -20,7 +20,7 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Product } from '@/constants/mock-api';
+import { Wine } from '@/constants/data';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
@@ -46,7 +46,7 @@ const formSchema = z.object({
       '.jpg, .jpeg, .png and .webp files are accepted.'
     ),
   name: z.string().min(2, {
-    message: 'Product name must be at least 2 characters.'
+    message: 'Wine name must be at least 2 characters.'
   }),
   category: z.string(),
   price: z.preprocess((value) => {
@@ -64,7 +64,7 @@ export default function ProductForm({
   initialData,
   pageTitle
 }: {
-  initialData: Product | null;
+  initialData: Wine | null;
   pageTitle: string;
 }) {
   const defaultValues = {
@@ -106,11 +106,6 @@ export default function ProductForm({
                         onValueChange={field.onChange}
                         maxFiles={4}
                         maxSize={4 * 1024 * 1024}
-                        // disabled={loading}
-                        // progresses={progresses}
-                        // pass the onUpload function here for direct upload
-                        // onUpload={uploadFiles}
-                        // disabled={isUploading}
                       />
                     </FormControl>
                     <FormMessage />
@@ -125,9 +120,9 @@ export default function ProductForm({
                 name='name'
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Product Name</FormLabel>
+                    <FormLabel>Wine Name</FormLabel>
                     <FormControl>
-                      <Input placeholder='Enter product name' {...field} />
+                      <Input placeholder='Enter wine name' {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -190,7 +185,7 @@ export default function ProductForm({
                   <FormLabel>Description</FormLabel>
                   <FormControl>
                     <Textarea
-                      placeholder='Enter product description'
+                      placeholder='Enter wine description'
                       className='resize-none'
                       {...field}
                     />
@@ -199,7 +194,7 @@ export default function ProductForm({
                 </FormItem>
               )}
             />
-            <Button type='submit'>Add Product</Button>
+            <Button type='submit'>Add Wine</Button>
           </form>
         </Form>
       </CardContent>

@@ -14,6 +14,9 @@ const nextConfig = {
     },
     {
       hostname: 'randomuser.me'
+    },
+    {
+      hostname: 'www.crombewines.com'
     }],
   },
 };

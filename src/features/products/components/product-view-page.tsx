@@ -1,6 +1,8 @@
-import { fakeProducts, Product } from '@/constants/mock-api';
+import { wineService } from '@/constants/wineItem-service';
+import { Wine } from '@/constants/data';
 import { notFound } from 'next/navigation';
 import ProductForm from './product-form';
+import Scanner from './scan-form';
 
 type TProductViewPageProps = {
   productId: string;
@@ -10,16 +12,24 @@ export default async function ProductViewPage({
   productId
 }: TProductViewPageProps) {
   let product = null;
-  let pageTitle = 'Create New Product';
+  let pageTitle = 'Create New Wine';
 
   if (productId !== 'new') {
-    const data = await fakeProducts.getProductById(Number(productId));
-    product = data.product as Product;
+    const data = await wineService.getWineById(Number(productId));
+    product = data as Wine;
     if (!product) {
       notFound();
     }
-    pageTitle = `Edit Product`;
+    pageTitle = `Edit Wine`;
   }
 
-  return <ProductForm initialData={product} pageTitle={pageTitle} />;
+  return (
+    <>
+      {productId === 'new' ? (
+        <Scanner />
+      ) : (
+        <ProductForm initialData={product} pageTitle={pageTitle} />
+      )}
+    </>
+  );
 }

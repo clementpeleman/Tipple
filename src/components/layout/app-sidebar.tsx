@@ -48,7 +48,7 @@ import { Icons } from '../icons';
 import { Session } from '@supabase/supabase-js';
 
 export const company = {
-  name: 'Acme Inc',
+  name: 'Tipple',
   logo: GalleryVerticalEnd,
   plan: 'Enterprise'
 };
