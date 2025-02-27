@@ -1,13 +1,21 @@
 import { createClient } from '@/utils/supabase/client';
 import { Wine } from './data'; // Hergebruik het Wine type
+import { userAgent } from 'next/server';
 
 const supabase = createClient();
 
 export const wineService = {
   async getAllWines(): Promise<Wine[]> {
+    const { data: user, error: userError } = await supabase.auth.getUser();
+    if (userError || !user?.user) {
+      console.error('Error fetching user:', userError);
+      throw userError || new Error('User not found');
+    }
+
     const { data, error } = await supabase
       .from('wines')
-      .select('*');
+      .select('*')
+      .eq('user_id', user.user.id);
 
     if (error) {
       console.error('Error fetching wines:', error);
@@ -18,10 +26,17 @@ export const wineService = {
   },
 
   async getWineById(id: number): Promise<Wine | null> {
+    const { data: user, error: userError } = await supabase.auth.getUser();
+    if (userError || !user?.user) {
+      console.error('Error fetching user:', userError);
+      throw userError || new Error('User not found');
+    }
+
     const { data, error } = await supabase
       .from('wines')
       .select('*')
       .eq('id', id)
+      .eq('user_id', user.user.id)
       .single();
 
     if (error) {
