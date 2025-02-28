@@ -1,3 +1,5 @@
+"use server"
+
 // Import de benodigde libraries voor server-side
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers'; // Deze werkt alleen in een Server Component of API-route.
