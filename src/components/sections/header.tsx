@@ -33,7 +33,6 @@ export default function Header() {
       if (data?.user) {
         setUsername(data.user.user_metadata?.first_name || "User");
       }
-      console.log(data)
     };
     fetchUser();
 

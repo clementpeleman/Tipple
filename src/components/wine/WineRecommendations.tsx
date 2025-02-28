@@ -1,12 +1,9 @@
-"use client";
-
 import { Wine } from "lucide-react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
-import { toast } from "sonner"; // Import toast from sonner
-import { wineService } from '@/constants/wineItem-service'; // Import your service to interact with the database
+import { toast } from "sonner";
 import { createClient } from '@/utils/supabase/client';
 import { Button } from "../ui/button";
 
@@ -37,31 +34,42 @@ export function WineRecommendations({
 }: WineRecommendationsProps) {
   const handleAddWine = async (wine: WinePairing) => {
     try {
-      const { data, error } = await supabase.auth.getUser();
-  
-      if (error || !data?.user) {
+      // Haal de token op uit de cookies
+      const token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('sb-access-token='))
+        ?.split('=')[1];
+
+      if (!token) {
         toast.error('You must be logged in to add a wine.');
         return;
       }
-  
-      const userId = data.user.id; // Correcte destructurering
-  
-      await wineService.addWine({
-        name: wine.wine_recommendation,
-        description: `A ${wine.color} wine from ${wine.country}.`,
-        category: wine.type,
-        user_id: userId, // Correcte user_id
-        price: 0,
-        photo_url: 'https://www.crombewines.com/cdn/shop/files/3.038.150-1-voorkant_label_7738679d-46a3-43a6-a7a6-e727cfa34342.png',
+
+      const response = await fetch('/api/wine', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          name: wine.wine_recommendation,
+          description: `A ${wine.color} wine from ${wine.country}.`,
+          category: wine.type,
+          price: 0,
+          photo_url: 'https://www.crombewines.com/cdn/shop/files/3.038.150-1-voorkant_label_7738679d-46a3-43a6-a7a6-e727cfa34342.png',
+        }),
       });
-  
+
+      if (!response.ok) {
+        throw new Error('Failed to add wine to the database.');
+      }
+
       toast.success('Wine added to the database successfully!');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error adding wine:', error);
       toast.error('Failed to add wine to the database.');
     }
   };
-  
 
   return (
     <Card className="backdrop-blur-sm bg-card/80">
@@ -90,7 +98,7 @@ export function WineRecommendations({
             </div>
 
             <div className="grid gap-3">
-              {rec.recommendations.top_wine_pairings.slice(0,3).map((wine, wineIndex) => (
+              {rec.recommendations.top_wine_pairings.slice(0, 3).map((wine, wineIndex) => (
                 <motion.div
                   key={wineIndex}
                   animate={{ opacity: 1, x: 0 }}
@@ -100,7 +108,6 @@ export function WineRecommendations({
                   <Card className="bg-muted/50 hover:bg-muted/70 transition-colors">
                     <CardContent className="p-4">
                       <div className="flex items-center gap-4">
-                        {/* Wijnicoon */}
                         <div
                           className={cn(
                             "mt-1",
@@ -116,9 +123,7 @@ export function WineRecommendations({
                           <Wine className="h-5 w-5" />
                         </div>
 
-                        {/* Wijninformatie + knop in één rij */}
                         <div className="flex-1 flex justify-between items-center">
-                          {/* Wijnnaam + Badges */}
                           <div>
                             <p className="font-medium leading-snug">{wine.wine_recommendation}</p>
                             <div className="flex flex-wrap gap-2 mt-1">
@@ -146,7 +151,6 @@ export function WineRecommendations({
                             </div>
                           </div>
 
-                          {/* Knop rechts */}
                           <Button variant="outline" className="" onClick={() => handleAddWine(wine)}>
                             Add to List
                           </Button>
@@ -154,7 +158,6 @@ export function WineRecommendations({
                       </div>
                     </CardContent>
                   </Card>
-
                 </motion.div>
               ))}
             </div>

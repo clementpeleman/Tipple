@@ -1,25 +1,34 @@
 import { Wine } from '@/constants/data';
-import { wineService } from '@/constants/wineItem-service';
 import { searchParamsCache } from '@/lib/searchparams';
 import { DataTable as ProductTable } from '@/components/ui/table/data-table';
 import { columns } from './product-tables/columns';
+import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
 
 type ProductListingPage = {};
 
 export default async function ProductListingPage({}: ProductListingPage) {
-  const page = searchParamsCache.get('page');
-  const search = searchParamsCache.get('q');
-  const pageLimit = searchParamsCache.get('limit');
-  const categories = searchParamsCache.get('categories');
+  //...filters
 
-  const filters = {
-    page,
-    limit: pageLimit,
-    ...(search && { search }),
-    ...(categories && { categories })
-  };
+  const cookieStore = cookies();
+  const supabase = await createClient();
 
-  const data = await wineService.getAllWines(); // Adjust this to use filters if needed
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    return <p>You must be logged in to view your wines.</p>;
+  }
+
+  const response = await fetch('http://localhost:3000/api/wine', {
+    headers: {
+      Authorization: `Bearer ${cookieStore.get('sb-access-token')?.value}`,
+    },
+  });
+
+  if (!response.ok) {
+    return <p>Failed to fetch wines.</p>;
+  }
+
+  const data: Wine[] = await response.json();
   const totalProducts = data.length;
   const products: Wine[] = data;
 

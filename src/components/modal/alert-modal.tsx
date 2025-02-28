@@ -1,8 +1,6 @@
-'use client';
 import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Modal } from '@/components/ui/modal';
-import { wineService } from '@/constants/wineItem-service';
 import { toast } from 'sonner';
 
 interface AlertModalProps {
@@ -32,15 +30,32 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   const handleDelete = async () => {
     setLoading(true);
     try {
-      const success = await wineService.deleteWine(wineId);
-      if (success) {
-        toast.success('Wine deleted successfully');
-        onDeleteSuccess(); // UI verversen na succesvolle verwijdering
-        onClose();
-      } else {
-        toast.error('Failed to delete wine');
+      // Haal de token op uit de cookies
+      const token = document.cookie
+        .split('; ')
+        .find((row) => row.startsWith('sb-access-token='))
+        ?.split('=')[1];
+
+      if (!token) {
+        toast.error('User not authenticated');
+        return;
       }
-    } catch (error) {
+
+      const response = await fetch(`/api/wine?id=${wineId}`, {
+        method: 'DELETE',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete wine');
+      }
+
+      toast.success('Wine deleted successfully');
+      onDeleteSuccess(); // UI verversen na succesvolle verwijdering
+      onClose();
+    } catch (error: any) {
       console.error('Error deleting wine:', error);
       toast.error('An error occurred');
     } finally {
@@ -50,16 +65,16 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   return (
     <Modal
-      title='Are you sure?'
-      description='This action cannot be undone.'
+      title="Are you sure?"
+      description="This action cannot be undone."
       isOpen={isOpen}
       onClose={onClose}
     >
-      <div className='flex w-full items-center justify-end space-x-2 pt-6'>
-        <Button disabled={loading} variant='outline' onClick={onClose}>
+      <div className="flex w-full items-center justify-end space-x-2 pt-6">
+        <Button disabled={loading} variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button disabled={loading} variant='destructive' onClick={handleDelete}>
+        <Button disabled={loading} variant="destructive" onClick={handleDelete}>
           Continue
         </Button>
       </div>
