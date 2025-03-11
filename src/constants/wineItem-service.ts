@@ -5,7 +5,7 @@ import { cookies } from 'next/headers'; // Import cookies from next/headers
 export const wineService = {
   async getAllWines(): Promise<Wine[]> {
     const cookieStore = cookies();
-    const supabase = await createClient(cookieStore);
+    const supabase = await createClient();
 
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -28,7 +28,7 @@ export const wineService = {
 
   async addWine(wine: Omit<Wine, 'id' | 'created_at' | 'updated_at'>): Promise<Wine> {
     const cookieStore = cookies();
-    const supabase = await createClient(cookieStore);
+    const supabase = await createClient();
 
     const { data: { user } } = await supabase.auth.getUser();
 
@@ -52,7 +52,7 @@ export const wineService = {
 
   async deleteWine(id: number): Promise<void> {
     const cookieStore = cookies();
-    const supabase = await createClient(cookieStore);
+    const supabase = await createClient();
 
     const { data: { user } } = await supabase.auth.getUser();
 
