@@ -5,14 +5,11 @@ import { useQueryState } from 'nuqs';
 import { useCallback, useMemo } from 'react';
 
 export const CATEGORY_OPTIONS = [
-  { value: 'red-wine', label: 'Red Wine' },
-  { value: 'white-wine', label: 'White Wine' },
-  { value: 'rose-wine', label: 'Rosé Wine' },
-  { value: 'sparkling-wine', label: 'Sparkling Wine' },
-  { value: 'dessert-wine', label: 'Dessert Wine' },
-  { value: 'fortified-wine', label: 'Fortified Wine' },
-  { value: 'organic-wine', label: 'Organic Wine' },
-  { value: 'biodynamic-wine', label: 'Biodynamic Wine' }
+  { value: 'Red', label: 'Red Wine' },
+  { value: 'White', label: 'White Wine' },
+  { value: 'Rose', label: 'Rosé Wine' },
+  { value: 'Sparkling', label: 'Sparkling Wine' },
+
 ];
 export function useProductTableFilters() {
   const [searchQuery, setSearchQuery] = useQueryState(

@@ -8,20 +8,15 @@ import { cookies } from 'next/headers';
 type ProductListingPage = {};
 
 export default async function ProductListingPage({}: ProductListingPage) {
-  //...filters
-
-  const cookieStore = cookies();
   const supabase = await createClient();
-
   const { data: { user } } = await supabase.auth.getUser();
+  
   if (!user) {
     return <p>You must be logged in to view your wines.</p>;
   }
 
-  const response = await fetch('http://localhost:3000/api/wine', {
-    headers: {
-      Authorization: `Bearer ${cookieStore.get('sb-access-token')?.value}`,
-    },
+  const response = await fetch(`http://localhost:3000/api/wine?userId=${user.id}`, {
+    cache: 'no-store',
   });
 
   if (!response.ok) {

@@ -29,14 +29,10 @@ export const fakeProducts = {
     const sampleProducts: Product[] = [];
     function generateRandomProductData(id: number): Product {
       const categories = [
-        'Red Wine',
-        'White Wine',
-        'Rosé Wine',
-        'Sparkling Wine',
-        'Dessert Wine',
-        'Fortified Wine',
-        'Organic Wine',
-        'Biodynamic Wine'
+        'Red',
+        'White',
+        'Rosé',
+        'Sparkling',
       ];
 
       return {

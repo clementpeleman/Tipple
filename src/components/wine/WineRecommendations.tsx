@@ -34,27 +34,27 @@ export function WineRecommendations({
 }: WineRecommendationsProps) {
   const handleAddWine = async (wine: WinePairing) => {
     try {
-      // Haal de token op uit de cookies
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('sb-access-token='))
-        ?.split('=')[1];
+      // Check if the user is logged in using Supabase
+      const { data: { user }, error } = await supabase.auth.getUser();
 
-      if (!token) {
+      if (error || !user) {
         toast.error('You must be logged in to add a wine.');
         return;
       }
 
-      const response = await fetch('/api/wine', {
+      // Construct the API URL with userId as query parameter
+      const apiUrl = `/api/wine?userId=${user.id}`;
+
+      // Proceed with adding the wine if the user is logged in
+      const response = await fetch(apiUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({
           name: wine.wine_recommendation,
           description: `A ${wine.color} wine from ${wine.country}.`,
-          category: wine.type,
+          category: wine.color,
           price: 0,
           photo_url: 'https://www.crombewines.com/cdn/shop/files/3.038.150-1-voorkant_label_7738679d-46a3-43a6-a7a6-e727cfa34342.png',
         }),

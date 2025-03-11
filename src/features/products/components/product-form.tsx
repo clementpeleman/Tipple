@@ -144,14 +144,10 @@ export default function ProductForm({
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value='red-wine'>Red Wine</SelectItem>
-                        <SelectItem value='white-wine'>White Wine</SelectItem>
-                        <SelectItem value='rose-wine'>Rosé Wine</SelectItem>
-                        <SelectItem value='sparkling-wine'>Sparkling Wine</SelectItem>
-                        <SelectItem value='dessert-wine'>Dessert Wine</SelectItem>
-                        <SelectItem value='fortified-wine'>Fortified Wine</SelectItem>
-                        <SelectItem value='organic-wine'>Organic Wine</SelectItem>
-                        <SelectItem value='biodynamic-wine'>Biodynamic Wine</SelectItem>
+                        <SelectItem value='Red'>Red Wine</SelectItem>
+                        <SelectItem value='White'>White Wine</SelectItem>
+                        <SelectItem value='Rose'>Rosé Wine</SelectItem>
+                        <SelectItem value='Sparkling'>Sparkling Wine</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />

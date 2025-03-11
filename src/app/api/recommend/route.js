@@ -29,7 +29,7 @@ export async function POST(req) {
               "Content-Type": "application/json",
               "x-api-key": process.env.VI_API_KEY,
             },
-            timeout: 15000,
+            timeout: 25000,
           },
         );
 

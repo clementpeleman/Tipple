@@ -3,12 +3,12 @@ import { updateSession } from '@/utils/supabase/middleware';
 
 export async function middleware(request: NextRequest) {
   // This is where you can log cookies before updating session
-  console.log("Middleware - Cookies before session update:", request.cookies.getAll());
+  // console.log("Middleware - Cookies before session update:", request.cookies.getAll());
   
   const updatedResponse = await updateSession(request);
   
   // Log cookies after updating session to verify if they're being set correctly
-  console.log("Middleware - Cookies after session update:", updatedResponse.cookies.getAll());
+  // console.log("Middleware - Cookies after session update:", updatedResponse.cookies.getAll());
 
   return updatedResponse;
 }
