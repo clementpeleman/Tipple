@@ -29,8 +29,8 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       <AlertModal
         isOpen={open}
         onClose={() => setOpen(false)}
-        onConfirm={onConfirm}
-        loading={loading}
+        onDeleteSuccess={onConfirm}
+        wineId={data.id}
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
