@@ -15,7 +15,9 @@ export default async function ProductListingPage({}: ProductListingPage) {
     return <p>You must be logged in to view your wines.</p>;
   }
 
-  const response = await fetch(`http://localhost:3000/api/wine?userId=${user.id}`, {
+  const apiUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+  const response = await fetch(`${apiUrl}/api/wine?userId=${user.id}`, {
     cache: 'no-store',
   });
 
