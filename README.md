@@ -16,22 +16,25 @@ Tipple is a platform that pairs, manages, and delivers wine using AI. This proje
   - [x] Implement user session management
 
 ### Next Steps
-- [ ] Implement Dashboard
-  - [ ] Design dashboard layout
-  - [ ] Fetch user-specific data from Supabase
+- [x] Implement Dashboard
+  - [x] Design dashboard layout
+  - [x] Fetch user-specific data from Supabase
   - [ ] Display user information and statistics
-- [ ] Develop Wine Pairing Backend
-  - [ ] Set up backend API for wine pairing
-  - [ ] Integrate AI service for wine pairing recommendations
+- [x] Develop Wine Pairing Backend
+  - [x] Set up backend API for wine pairing
+  - [x] Integrate AI service for wine pairing recommendations
   - [ ] Create endpoints for pairing requests
+- [ ] Improve the wine storage method
+  - [ ] Include dishes and dish type in list
+  - [ ] Search wine API for scraping info and ordering
 - [ ] Integrate Stripe for Payments
   - [ ] Set up Stripe account and obtain API keys
   - [ ] Implement Stripe checkout for subscription plans
   - [ ] Handle payment success and failure scenarios
 
 ### Future Enhancements
-- [ ] Improve UI/UX
-  - [ ] Add animations and transitions
+- [x] Improve UI/UX
+  - [x] Add animations and transitions
   - [ ] Optimize for mobile devices
 - [ ] Add User Profile Management
   - [ ] Allow users to update their profile information
@@ -39,3 +42,4 @@ Tipple is a platform that pairs, manages, and delivers wine using AI. This proje
 - [ ] Implement Notifications
   - [ ] Set up email notifications for important events
   - [ ] Add in-app notifications for user actions
+
