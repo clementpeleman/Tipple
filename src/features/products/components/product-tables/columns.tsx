@@ -1,13 +1,13 @@
 'use client';
-import { Product } from '@/constants/data';
+import { Wine } from '@/constants/data';
 import { ColumnDef } from '@tanstack/react-table';
 import Image from 'next/image';
 import { CellAction } from './cell-action';
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<Wine>[] = [
   {
     accessorKey: 'photo_url',
-    header: 'IMAGE',
+    header: '',
     cell: ({ row }) => {
       return (
         <div className='relative aspect-square'>
@@ -24,19 +24,25 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'NAME'
+    header: 'Name',
+    cell: ({ row }) => (
+      <div>
+        <div className="text-sm font-medium text-gray-900">{row.original.name}</div>
+        <div className="text-sm font text-gray-500">{row.original.dish}</div>
+      </div>
+    ),
   },
   {
     accessorKey: 'category',
-    header: 'CATEGORY'
+    header: 'Category'
   },
   {
     accessorKey: 'price',
-    header: 'PRICE'
+    header: 'Price'
   },
   {
     accessorKey: 'description',
-    header: 'DESCRIPTION'
+    header: 'Description'
   },
 
   {

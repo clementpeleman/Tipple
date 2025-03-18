@@ -27,12 +27,14 @@ interface RecommendationWrapper {
 
 interface WineRecommendationsProps {
   recommendations: RecommendationWrapper[];
+  dishCategoryMap: Map<string, string>;
 }
 
 export function WineRecommendations({
   recommendations,
+  dishCategoryMap,
 }: WineRecommendationsProps) {
-  const handleAddWine = async (wine: WinePairing) => {
+  const handleAddWine = async (wine: WinePairing, dish: string) => {
     try {
       // Check if the user is logged in using Supabase
       const { data: { user }, error } = await supabase.auth.getUser();
@@ -41,6 +43,13 @@ export function WineRecommendations({
         toast.error('You must be logged in to add a wine.');
         return;
       }
+
+      // Find the original dish name if we have a translated dish
+      const dishEntry = recommendations.find(rec => rec.translated_dish === dish);
+      const originalDishName = dishEntry ? dishEntry.original_dish : dish;
+      
+      // Get the dish category from our map
+      const dish_type = dishCategoryMap.get(originalDishName) || "Other";
 
       // Construct the API URL with userId as query parameter
       const apiUrl = `/api/wine?userId=${user.id}`;
@@ -57,6 +66,8 @@ export function WineRecommendations({
           category: wine.color,
           price: 0,
           photo_url: 'https://www.crombewines.com/cdn/shop/files/3.038.150-1-voorkant_label_7738679d-46a3-43a6-a7a6-e727cfa34342.png',
+          dish: originalDishName, // Use the original dish name instead of the translated one
+          dish_type: dish_type,
         }),
       });
 
@@ -94,6 +105,11 @@ export function WineRecommendations({
                 <p className="text-sm text-muted-foreground italic">
                   {rec.translated_dish}
                 </p>
+              )}
+              {dishCategoryMap.get(rec.original_dish) && (
+                <Badge variant="outline" className="mt-1">
+                  {dishCategoryMap.get(rec.original_dish)}
+                </Badge>
               )}
             </div>
 
@@ -151,7 +167,10 @@ export function WineRecommendations({
                             </div>
                           </div>
 
-                          <Button variant="outline" className="" onClick={() => handleAddWine(wine)}>
+                          <Button 
+                            variant="outline" 
+                            onClick={() => handleAddWine(wine, rec.translated_dish)}
+                          >
                             Add to List
                           </Button>
                         </div>

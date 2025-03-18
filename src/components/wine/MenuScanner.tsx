@@ -43,6 +43,19 @@ export function MenuScanner() {
     RecommendationWrapper[]
   >([]);
 
+  // Create a mapping of dish names to their categories
+  const dishCategoryMap = React.useMemo(() => {
+    const map = new Map<string, string>();
+    
+    dishes.forEach(category => {
+      category.dishes.forEach(dish => {
+        map.set(dish.name, category.name);
+      });
+    });
+    
+    return map;
+  }, [dishes]);
+
   const handleUpload = async (file: File) => {
     setIsLoading(true);
     try {
@@ -194,7 +207,10 @@ export function MenuScanner() {
                 className="md:sticky md:top-24 h-fit"
                 initial={{ opacity: 0, x: 20 }}
               >
-                <WineRecommendations recommendations={recommendations} />
+                <WineRecommendations 
+                  recommendations={recommendations} 
+                  dishCategoryMap={dishCategoryMap} 
+                />
               </motion.div>
             )}
           </motion.div>

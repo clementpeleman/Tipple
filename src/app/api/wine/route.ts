@@ -42,10 +42,10 @@ export async function POST(request: Request) {
 
     // Parse the request body
     const body = await request.json();
-    const { name, description, category, price, photo_url } = body;
+    const { name, description, category, price, photo_url, dish, dish_type } = body;
 
     // Validate required fields
-    if (!name || !description || !category || price === undefined || !photo_url) {
+    if (!name || !description || !category || price === undefined || !photo_url || !dish || !dish_type) {
       return NextResponse.json({ error: 'Missing required wine data' }, { status: 400 });
     }
 
@@ -62,6 +62,8 @@ export async function POST(request: Request) {
           category,
           price,
           photo_url,
+          dish,
+          dish_type
         }
       ]);
 

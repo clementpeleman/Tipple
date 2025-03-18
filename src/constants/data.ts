@@ -9,6 +9,8 @@ export type Product = {
   id: number;
   category: string;
   updated_at: string;
+  dish: string;
+  dish_type: string;
 };
 
 export type Wine = {
@@ -21,6 +23,8 @@ export type Wine = {
   category: string;
   updated_at: string;
   user_id: string;
+  dish: string;
+  dish_type: string;
 };
 
 //Info: The following data is used for the sidebar navigation and Cmd K bar.
@@ -54,12 +58,7 @@ export const navItems: NavItem[] = [
         icon: 'userPen',
         shortcut: ['m', 'm']
       },
-      {
-        title: 'Login',
-        shortcut: ['l', 'l'],
-        url: '/',
-        icon: 'login'
-      }
+
     ]
   },
   {
