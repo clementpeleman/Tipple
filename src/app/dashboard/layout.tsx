@@ -8,8 +8,8 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/utils/supabase/server'; // Zorg ervoor dat je een server-client hebt
 
 export const metadata: Metadata = {
-  title: 'Next Shadcn Dashboard Starter',
-  description: 'Basic dashboard with Next.js and Shadcn'
+  title: 'Tipple Dashboard',
+  description: 'Wine managing dashboard',
 };
 
 export default async function DashboardLayout({
