@@ -29,13 +29,14 @@ export default function SignupForm() {
     const formData = new FormData(event.currentTarget as HTMLFormElement);
     const result = await signup(formData);
 
-    setLoading(false);
+
 
     if (result.success) {
-      router.push("/dashboard/overview"); // Client-side navigation
+      router.push("/dashboard/product"); // Client-side navigation
     } else {
       setError(result.error ?? "An unknown error occurred");
       router.push("/error"); // Or handle error display differently
+      setLoading(false);
     }
   };
 

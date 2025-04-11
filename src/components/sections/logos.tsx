@@ -4,12 +4,7 @@ import Image from "next/image";
 const companies = [
   "Google",
   "Microsoft",
-  "Amazon",
-  "Netflix",
-  "YouTube",
   "Instagram",
-  "Uber",
-  "Spotify",
 ];
 
 export default function Logos() {

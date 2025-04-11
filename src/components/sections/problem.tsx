@@ -1,26 +1,26 @@
 import BlurFade from "@/components/magicui/blur-fade";
 import Section from "@/components/section";
 import { Card, CardContent } from "@/components/ui/card";
-import { Brain, Shield, Zap } from "lucide-react";
+import { Wine, ListTodo, Timer } from "lucide-react";
 
 const problems = [
   {
-    title: "Data Overload",
+    title: "Time-Consuming Pairing",
     description:
-      "Businesses struggle to make sense of vast amounts of complex data, missing out on valuable insights that could drive growth and innovation.",
-    icon: Brain,
+      "Manually pairing wines with dishes is a tedious and time-consuming process, especially for users unfamiliar with wine pairing principles.",
+    icon: Timer,
   },
   {
-    title: "Slow Decision-Making",
+    title: "Overwhelming Choices",
     description:
-      "Traditional data processing methods are too slow, causing businesses to lag behind market changes and miss crucial opportunities.",
-    icon: Zap,
+      "With countless wines available, users often feel overwhelmed and struggle to make confident decisions about the best pairings for their meals.",
+    icon: ListTodo,
   },
   {
-    title: "Data Security Concerns",
+    title: "Lack of Personalization",
     description:
-      "With increasing cyber threats, businesses worry about the safety of their sensitive information when adopting new technologies.",
-    icon: Shield,
+      "Generic wine recommendations fail to consider individual preferences, leaving users dissatisfied with their pairing experience.",
+    icon: Wine,
   },
 ];
 
@@ -28,7 +28,7 @@ export default function Component() {
   return (
     <Section
       title="Problem"
-      subtitle="Manually entering your data is a hassle."
+      subtitle="Manually pairing quality wine is a hassle"
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
         {problems.map((problem, index) => (

@@ -9,9 +9,9 @@ import { motion } from "framer-motion";
 
 const features = [
   {
-    title: "Advanced AI Algorithms",
+    title: "AI-Powered Wine Pairing",
     description:
-      "Our platform utilizes cutting-edge AI algorithms to provide accurate and efficient solutions for your business needs.",
+      "Leverage advanced AI algorithms to recommend the perfect wine pairings for your menu or individual dishes, saving you time and effort.",
     className: "hover:bg-red-500/10 transition-all duration-500 ease-out",
     content: (
       <>
@@ -24,9 +24,9 @@ const features = [
     ),
   },
   {
-    title: "Secure Data Handling",
+    title: "Streamlined Wine Selection",
     description:
-      "We prioritize your data security with state-of-the-art encryption and strict privacy protocols, ensuring your information remains confidential.",
+      "Easily browse through curated wine recommendations and confidently select the best options for your meals.",
     className:
       "order-3 xl:order-none hover:bg-blue-500/10 transition-all duration-500 ease-out",
     content: (
@@ -38,9 +38,9 @@ const features = [
     ),
   },
   {
-    title: "Seamless Integration",
+    title: "Personalized Recommendations",
     description:
-      "Easily integrate our AI solutions into your existing workflows and systems for a smooth and efficient operation.",
+      "Get wine suggestions tailored to your preferences and menu, ensuring a unique and satisfying pairing experience.",
     className:
       "md:row-span-2 hover:bg-orange-500/10 transition-all duration-500 ease-out",
     content: (
@@ -64,9 +64,9 @@ const features = [
     ),
   },
   {
-    title: "Customizable Solutions",
+    title: "Dashboard and Ordering",
     description:
-      "Tailor our AI services to your specific needs with flexible customization options, allowing you to get the most out of our platform.",
+      "Keep track of your selected wines on a user-friendly dashboard and place orders directly from the platform.",
     className:
       "flex-row order-4 md:col-span-2 md:flex-row xl:order-none hover:bg-green-500/10 transition-all duration-500 ease-out",
     content: (
