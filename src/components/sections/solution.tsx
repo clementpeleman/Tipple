@@ -11,7 +11,7 @@ const features = [
   {
     title: "AI-Powered Wine Pairing",
     description:
-      "Leverage advanced AI algorithms to recommend the perfect wine pairings for your menu or individual dishes, saving you time and effort.",
+      "Leverage our partners advanced kNN algorithm to recommend the perfect wine pairings for your menu or individual dishes.",
     className: "hover:bg-red-500/10 transition-all duration-500 ease-out",
     content: (
       <>

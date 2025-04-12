@@ -7,15 +7,15 @@ export const BLUR_FADE_DELAY = 0.15;
 
 export const siteConfig = {
   name: "Tipple",
-  description: "Automate your winechoice with AI",
+  description: "Automate your wine pairing with AI",
   url: process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
-  keywords: ["SaaS", "Template", "Next.js", "React", "Tailwind CSS"],
+  keywords: ["Wine Pairing", "AI", "Next.js", "React", "Tailwind CSS"],
   links: {
-    email: "support@acme.ai",
-    twitter: "https://twitter.com/magicuidesign",
-    discord: "https://discord.gg/87p2vpsat5",
-    github: "https://github.com/magicuidesign/magicui",
-    instagram: "https://instagram.com/magicuidesign/",
+    email: "support@tipple.ai",
+    twitter: "https://twitter.com/tippleai",
+    discord: "https://discord.gg/tippleai",
+    github: "https://github.com/tippleai",
+    instagram: "https://instagram.com/tippleai/",
   },
   header: [
     {
@@ -23,25 +23,25 @@ export const siteConfig = {
       content: {
         main: {
           icon: <Icons.logo className="h-6 w-6" />,
-          title: "AI-Powered Automation",
-          description: "Streamline your workflow with intelligent automation.",
+          title: "AI-Powered Wine Pairing",
+          description: "Streamline your wine selection with intelligent AI recommendations.",
           href: "#",
         },
         items: [
           {
             href: "#",
-            title: "Task Automation",
-            description: "Automate repetitive tasks and save time.",
+            title: "Menu Upload",
+            description: "Easily upload your menu or input individual dishes.",
           },
           {
             href: "#",
-            title: "Workflow Optimization",
-            description: "Optimize your processes with AI-driven insights.",
+            title: "Wine Recommendations",
+            description: "Get AI-powered wine pairings tailored to your dishes.",
           },
           {
             href: "#",
-            title: "Intelligent Scheduling",
-            description: "AI-powered scheduling for maximum efficiency.",
+            title: "Personalized Suggestions",
+            description: "Receive recommendations based on your preferences.",
           },
         ],
       },
@@ -51,35 +51,24 @@ export const siteConfig = {
       content: {
         items: [
           {
-            title: "For Small Businesses",
+            title: "For Restaurants",
             href: "#",
-            description: "Tailored automation solutions for growing companies.",
+            description: "Enhance your menu with perfect wine pairings.",
           },
           {
-            title: "Enterprise",
+            title: "For Wine Enthusiasts",
             href: "#",
-            description: "Scalable AI automation for large organizations.",
+            description: "Discover wines that complement your meals.",
           },
           {
-            title: "Developers",
+            title: "For Retailers",
             href: "#",
-            description: "API access and integration tools for developers.",
+            description: "Offer curated wine suggestions to your customers.",
           },
           {
-            title: "Healthcare",
+            title: "For Events",
             href: "#",
-            description: "Specialized automation for healthcare workflows.",
-          },
-          {
-            title: "Finance",
-            href: "#",
-            description: "AI-driven process automation for financial services.",
-          },
-          {
-            title: "Education",
-            href: "#",
-            description:
-              "Streamline administrative tasks in educational institutions.",
+            description: "Simplify wine selection for special occasions.",
           },
         ],
       },
@@ -93,105 +82,91 @@ export const siteConfig = {
     {
       name: "BASIC",
       href: "#",
-      price: "$19",
+      price: "€19",
       period: "month",
-      yearlyPrice: "$16",
+      yearlyPrice: "€16",
       features: [
         "1 User",
-        "5GB Storage",
+        "5 Wine Pairings per Month",
         "Basic Support",
-        "Limited API Access",
-        "Standard Analytics",
+        "Limited Dashboard Access",
       ],
-      description: "Perfect for individuals and small projects",
+      description: "Perfect for individuals exploring wine pairing.",
       buttonText: "Subscribe",
       isPopular: false,
     },
     {
       name: "PRO",
       href: "#",
-      price: "$49",
+      price: "€49",
       period: "month",
-      yearlyPrice: "$40",
+      yearlyPrice: "€40",
       features: [
         "5 Users",
-        "50GB Storage",
+        "Unlimited Wine Pairings",
         "Priority Support",
-        "Full API Access",
-        "Advanced Analytics",
+        "Full Dashboard Access",
       ],
-      description: "Ideal for growing businesses and teams",
+      description: "Ideal for small teams and wine enthusiasts.",
       buttonText: "Subscribe",
       isPopular: true,
     },
     {
       name: "ENTERPRISE",
       href: "#",
-      price: "$99",
+      price: "€99",
       period: "month",
-      yearlyPrice: "$82",
+      yearlyPrice: "€82",
       features: [
         "Unlimited Users",
-        "500GB Storage",
+        "Custom Wine Pairing Solutions",
         "24/7 Premium Support",
-        "Custom Integrations",
-        "AI-Powered Insights",
+        "Advanced Analytics",
       ],
-      description: "For large-scale operations and high-volume users",
-      buttonText: "Subscribe",
+      description: "For large-scale operations and businesses.",
+      buttonText: "Contact Us",
       isPopular: false,
     },
   ],
   faqs: [
     {
-      question: "What is acme.ai?",
+      question: "What is Tipple?",
       answer: (
         <span>
-          acme.ai is a platform that helps you build and manage your AI-powered
-          applications. It provides tools and services to streamline the
-          development and deployment of AI solutions.
+          Tipple is an AI-powered platform that helps you pair wines with your menu or individual dishes, making wine selection effortless and enjoyable.
+          On top of that, it keeps track of your wines and allows you to order them directly from the platform.
         </span>
       ),
     },
     {
-      question: "How can I get started with acme.ai?",
+      question: "How does Tipple work?",
       answer: (
         <span>
-          You can get started with acme.ai by signing up for an account on our
-          website, creating a new project, and following our quick-start guide.
-          We also offer tutorials and documentation to help you along the way.
+          Simply upload your menu or input individual dishes, and our AI will recommend the perfect wine pairings tailored to your preferences.
         </span>
       ),
     },
     {
-      question: "What types of AI models does acme.ai support?",
+      question: "Can I order wines directly through Tipple?",
       answer: (
         <span>
-          acme.ai supports a wide range of AI models, including but not limited
-          to natural language processing, computer vision, and predictive
-          analytics. We continuously update our platform to support the latest
-          AI technologies.
+          Yes, you can save your selected wines to your dashboard and place orders directly from the platform.
         </span>
       ),
     },
     {
-      question: "Is acme.ai suitable for beginners in AI development?",
+      question: "Is Tipple suitable for restaurants?",
       answer: (
         <span>
-          Yes, acme.ai is designed to be user-friendly for both beginners and
-          experienced developers. We offer intuitive interfaces, pre-built
-          templates, and extensive learning resources to help users of all skill
-          levels create AI-powered applications.
+          Absolutely! Tipple is designed to help restaurants enhance their menus with expertly paired wines, improving the dining experience for customers.
         </span>
       ),
     },
     {
-      question: "What kind of support does acme.ai provide?",
+      question: "What kind of support does Tipple provide?",
       answer: (
         <span>
-          acme.ai provides comprehensive support including documentation, video
-          tutorials, a community forum, and dedicated customer support. We also
-          offer premium support plans for enterprises with more complex needs.
+          Tipple offers comprehensive support, including documentation, tutorials, and customer service. Premium support is available for enterprise users.
         </span>
       ),
     },

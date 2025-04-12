@@ -48,9 +48,9 @@ function HeroPill() {
 
 function HeroTitles() {
   return (
-    <div className="flex w-full max-w-6xl flex-col space-y-4 overflow-hidden pt-8">
+    <div className="flex w-full max-w-6xl flex-col space-y-8 md:space-y-4 overflow-hidden pt-8">
       <motion.h1
-        className="text-center text-6xl font-medium leading-tight text-foreground sm:text-6xl md:text-8xl"
+        className="text-center text-6xl font-medium md:leading-tight text-foreground sm:text-6xl md:text-8xl"
         initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
         animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
         transition={{
