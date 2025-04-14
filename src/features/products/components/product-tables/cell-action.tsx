@@ -12,6 +12,7 @@ import { Product } from '@/constants/data';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { toast } from 'sonner';
 
 interface CellActionProps {
   data: Product;
@@ -22,7 +23,27 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 
-  const onConfirm = async () => {};
+  const onConfirm = async () => {
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/wine/${data.id}`, {
+        method: 'DELETE',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to delete wine');
+      }
+
+      toast.success('Wine deleted successfully!');
+      router.refresh(); // Refresh the route to update the table
+    } catch (error: any) {
+      toast.error('Failed to delete wine.');
+      console.error(error);
+    } finally {
+      setOpen(false);
+      setLoading(false);
+    }
+  };
 
   return (
     <>
@@ -31,6 +52,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         onClose={() => setOpen(false)}
         onDeleteSuccess={onConfirm}
         wineId={data.id}
+        loading={loading}
       />
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>

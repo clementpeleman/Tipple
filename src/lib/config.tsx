@@ -203,21 +203,21 @@ export const siteConfig = {
     {
       title: "Social",
       links: [
-        {
-          href: "#",
-          text: "Twitter",
-          icon: <FaTwitter />,
-        },
+        // {
+        //   href: "#",
+        //   text: "Twitter",
+        //   icon: <FaTwitter />,
+        // },
         {
           href: "#",
           text: "Instagram",
           icon: <RiInstagramFill />,
         },
-        {
-          href: "#",
-          text: "Youtube",
-          icon: <FaYoutube />,
-        },
+        // {
+        //   href: "#",
+        //   text: "Youtube",
+        //   icon: <FaYoutube />,
+        // },
       ],
     },
   ],

@@ -8,6 +8,7 @@ interface AlertModalProps {
   onClose: () => void;
   wineId: number; // ID van de wijn die verwijderd moet worden
   onDeleteSuccess: () => void; // Callback om de UI te updaten na verwijderen
+  loading: boolean; // Indicates if the deletion is in progress
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
@@ -15,9 +16,9 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   onClose,
   wineId,
   onDeleteSuccess,
+  loading,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -26,42 +27,6 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   if (!isMounted) {
     return null;
   }
-
-  const handleDelete = async () => {
-    setLoading(true);
-    try {
-      // Haal de token op uit de cookies
-      const token = document.cookie
-        .split('; ')
-        .find((row) => row.startsWith('sb-access-token='))
-        ?.split('=')[1];
-
-      if (!token) {
-        toast.error('User not authenticated');
-        return;
-      }
-
-      const response = await fetch(`/api/wine?id=${wineId}`, {
-        method: 'DELETE',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to delete wine');
-      }
-
-      toast.success('Wine deleted successfully');
-      onDeleteSuccess(); // UI verversen na succesvolle verwijdering
-      onClose();
-    } catch (error: any) {
-      console.error('Error deleting wine:', error);
-      toast.error('An error occurred');
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Modal
@@ -74,8 +39,12 @@ export const AlertModal: React.FC<AlertModalProps> = ({
         <Button disabled={loading} variant="outline" onClick={onClose}>
           Cancel
         </Button>
-        <Button disabled={loading} variant="destructive" onClick={handleDelete}>
-          Continue
+        <Button
+          disabled={loading}
+          variant="destructive"
+          onClick={onDeleteSuccess}
+        >
+          {loading ? "Deleting..." : "Continue"}
         </Button>
       </div>
     </Modal>

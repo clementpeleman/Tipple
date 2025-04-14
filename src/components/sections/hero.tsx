@@ -8,6 +8,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 import {Particles} from "@/components/magicui/particles";
+import { LineShadowText } from "@/components/magicui/line-shadow-text";
 
 import { useTheme } from "next-themes"
 import { useEffect, useState } from "react"
@@ -47,10 +48,12 @@ function HeroPill() {
 }
 
 function HeroTitles() {
+  const theme = useTheme();
+  const shadowColor = theme.resolvedTheme === "dark" ? "white" : "black";
   return (
     <div className="flex w-full max-w-6xl flex-col space-y-8 md:space-y-4 overflow-hidden pt-8">
       <motion.h1
-        className="text-center text-6xl font-medium md:leading-tight text-foreground sm:text-6xl md:text-8xl"
+        className="text-center text-6xl font-medium md:leading-[1.2] text-foreground sm:text-6xl md:text-8xl"
         initial={{ filter: "blur(10px)", opacity: 0, y: 50 }}
         animate={{ filter: "blur(0px)", opacity: 1, y: 0 }}
         transition={{
@@ -59,7 +62,7 @@ function HeroTitles() {
           staggerChildren: 0.2,
         }}
       >
-        {["Tipple pairs,", "manages", " and delivers", "your wine"].map((text, index) => (
+        {["Tipple pairs,", "manages", " and delivers", "your "].map((text, index) => (
           <motion.span
             key={index}
             className="inline-block px-1 md:px-2 text-balance font-medium"
@@ -74,6 +77,9 @@ function HeroTitles() {
             {text}
           </motion.span>
         ))}
+            <motion.span>
+            <LineShadowText className="italic" shadowColor={shadowColor}>wine</LineShadowText>
+          </motion.span>
       </motion.h1>
       <motion.p
         className="mx-auto max-w-xs lg:max-w-4xl text-center text-md leading-7 text-muted-foreground sm:text-xl sm:leading-9 text-balance"
