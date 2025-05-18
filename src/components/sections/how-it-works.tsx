@@ -16,7 +16,7 @@ const data = [
     title: "2. Get Wine Pairings",
     content:
       "Our advanced AI algorithms analyze your menu and recommend the perfect wine pairings, tailored to your dishes and preferences.",
-    image: "/dashboard.png",
+    image: "/showcase_2.png",
     icon: <Zap className="w-6 h-6 text-primary" />,
   },
   {
@@ -24,7 +24,7 @@ const data = [
     title: "3. Save and Order",
     content:
       "Save your selected wines to your dashboard and place orders directly from the platform for a hassle-free experience.",
-    image: "/dashboard.png",
+    image: "/showcase.png",
     icon: <Sparkles className="w-6 h-6 text-primary" />,
   },
 ];
