@@ -8,7 +8,7 @@ const data = [
     title: "1. Upload Your Menu",
     content:
       "Easily upload your menu or input individual dishes into our secure platform. We support various formats to ensure a seamless experience.",
-    image: "/dashboard.png",
+    image: "/menu.png",
     icon: <Upload className="w-6 h-6 text-primary" />,
   },
   {
@@ -16,7 +16,7 @@ const data = [
     title: "2. Get Wine Pairings",
     content:
       "Our advanced AI algorithms analyze your menu and recommend the perfect wine pairings, tailored to your dishes and preferences.",
-    image: "/showcase_2.png",
+    image: "/showcase_hiw.png",
     icon: <Zap className="w-6 h-6 text-primary" />,
   },
   {
@@ -24,7 +24,7 @@ const data = [
     title: "3. Save and Order",
     content:
       "Save your selected wines to your dashboard and place orders directly from the platform for a hassle-free experience.",
-    image: "/showcase.png",
+    image: "/showcase_2_hiw.png",
     icon: <Sparkles className="w-6 h-6 text-primary" />,
   },
 ];
