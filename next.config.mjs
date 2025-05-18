@@ -14,11 +14,15 @@ const nextConfig = {
       },
       {
         protocol: "https",
-        hostname: "www.randomuser.me",
+        hostname: "randomuser.me",
       },
       {
         protocol: "https",
         hostname: "www.crombewines.com",
+      },
+      {
+        protocol: "https",
+        hostname: "www.youtube.com",
       },
     ],
   },
