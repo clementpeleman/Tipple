@@ -8,7 +8,7 @@ const data = [
     title: "1. Upload Your Menu",
     content:
       "Upload your menu or input individual dishes.",
-    image: "/dashboard.png",
+    image: "/menu.png",
     icon: <Upload className="w-6 h-6 text-primary" />,
   },
   {
@@ -16,7 +16,7 @@ const data = [
     title: "2. Get Wine Pairings",
     content:
       "AI algorithms analyze your menu and recommend wine pairings.",
-    image: "/dashboard.png",
+    image: "/showcase_hiw.png",
     icon: <Zap className="w-6 h-6 text-primary" />,
   },
   {
@@ -24,7 +24,7 @@ const data = [
     title: "3. Save and Order",
     content:
       "Save your selected wines and place orders directly from the platform.",
-    image: "/dashboard.png",
+    image: "/showcase_2_hiw.png",
     icon: <Sparkles className="w-6 h-6 text-primary" />,
   },
 ];
