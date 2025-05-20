@@ -7,11 +7,11 @@ import HeroVideoDialog from "@/components/magicui/hero-video";
 import { buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import {Particles} from "@/components/magicui/particles";
+import { Particles } from "@/components/magicui/particles";
 import { LineShadowText } from "@/components/magicui/line-shadow-text";
 
-import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
 
 const ease = [0.16, 1, 0.3, 1];
 
@@ -25,7 +25,7 @@ function HeroPill() {
       transition={{ duration: 0.8, ease }}
     >
       <div className="w-fit rounded-full bg-accent ml-[-3px] px-2 py-0.5 text-center text-xs font-medium text-primary sm:text-sm">
-        ✨ Introducing 
+        🍷🍇 Introducing
       </div>
       <p className="text-xs font-medium text-primary sm:text-sm">
         Wine Pairing Service
@@ -62,37 +62,51 @@ function HeroTitles() {
           staggerChildren: 0.2,
         }}
       >
-        {["Tipple pairs,", "manages", " and delivers", "your "].map((text, index) => (
-          <motion.span
-            key={index}
-            className="inline-block px-1 md:px-2 text-balance font-medium"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{
-              duration: 0.8,
-              delay: index * 0.2,
-              ease,
-            }}
-          >
-            {text}
-          </motion.span>
-        ))}
-            <motion.span>
-            <LineShadowText className="italic" shadowColor={shadowColor}>wine</LineShadowText>
-          </motion.span>
+        {["Tipple pairs,", "manages", " and delivers", "your "].map(
+          (text, index) => (
+            <motion.span
+              key={index}
+              className="inline-block px-1 md:px-2 text-balance font-medium"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                duration: 0.8,
+                delay: index * 0.2,
+                ease,
+              }}
+            >
+              {text}
+            </motion.span>
+          )
+        )}
+        <motion.span
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{
+            duration: 1.6,
+            delay: 4 * 0.2, // komt direct na de laatste van de array
+            ease,
+          }}
+        >
+          <LineShadowText className="italic" shadowColor={shadowColor}>
+            wine
+          </LineShadowText>
+        </motion.span>
       </motion.h1>
       <motion.p
         className="mx-auto max-w-xs lg:max-w-4xl text-center text-md leading-7 text-muted-foreground sm:text-xl sm:leading-9 text-balance"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{
-          delay: 0.6,
+          delay: 1.6,
           duration: 0.8,
           ease,
         }}
       >
-        Utilize our own developed AI service to pair wines with your existing menu.
-        <br className="" /> Effortlessly manage and deliver your wines with our platform
+        Utilize our own developed AI service to pair wines with your existing
+        menu.
+        <br className="" /> Effortlessly manage and deliver your wines with our
+        platform
       </motion.p>
     </div>
   );
@@ -105,7 +119,7 @@ function HeroCTA() {
         className="mx-auto mt-12 flex w-full max-w-2xl flex-col items-center justify-center space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.8, ease }}
+        transition={{ delay: 1.8, duration: 0.8, ease }}
       >
         <Link
           href="/signup"
@@ -114,7 +128,6 @@ function HeroCTA() {
             "w-full sm:w-auto text-background flex gap-2"
           )}
         >
-          
           Get started for free
         </Link>
       </motion.div>
@@ -140,8 +153,8 @@ function HeroImage() {
     >
       <HeroVideoDialog
         animationStyle="from-center"
-        videoSrc=""
-        thumbnailSrc="/dashboard.png"
+        videoSrc="https://www.youtube.com/embed/DL5_uoo56d8?si=bFBGr6PoZA65OvdT"
+        thumbnailSrc="/showcase_2.png"
         thumbnailAlt="Hero Video"
         className="border rounded-lg shadow-lg max-w-screen-lg mt-16"
       />
@@ -150,13 +163,12 @@ function HeroImage() {
 }
 
 export default function Hero2() {
-
-  const { resolvedTheme } = useTheme()
-  const [color, setColor] = useState("#ffffff")
+  const { resolvedTheme } = useTheme();
+  const [color, setColor] = useState("#ffffff");
 
   useEffect(() => {
-    setColor(resolvedTheme === "dark" ? "#ffffff" : "#000000")
-  }, [resolvedTheme])
+    setColor(resolvedTheme === "dark" ? "#ffffff" : "#000000");
+  }, [resolvedTheme]);
 
   return (
     <section id="hero">

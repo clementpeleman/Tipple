@@ -16,7 +16,7 @@ const features = [
     content: (
       <>
         <Safari
-          src={`/dashboard.png`}
+          src={`/showcase_2.png`}
           url="https://acme.ai"
           className="-mb-32 mt-4 max-h-64 w-full px-4 select-none drop-shadow-[0_0_28px_rgba(0,0,0,.1)] group-hover:translate-y-[-10px] transition-all duration-300"
         />
@@ -56,7 +56,7 @@ const features = [
           width={800}
         />
         <Safari
-          src={`/dashboard.png`}
+          src={`/showcase.png`}
           url="https://acme.ai"
           className="-mb-48 ml-12 mt-16 h-full px-4 select-none drop-shadow-[0_0_28px_rgba(0,0,0,.1)] group-hover:translate-x-[-10px] transition-all duration-300"
         />
