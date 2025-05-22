@@ -114,4 +114,9 @@ To maintain compatibility with existing code that expects the old database struc
    - Added `Wine as NormalizedWine` import from the new database types
    - Updated AlertModal component to accept both number and string IDs for backward compatibility
 
+4. **Component Updates**: Modified components to work with the normalized structure:
+   - Updated `product-view-page.tsx` to query the pairings table instead of wines directly
+   - Added data transformation to convert pairing data to match the Wine interface
+   - Updated ID handling to convert between UUID and number formats for backward compatibility
+
 This approach allows us to gradually migrate the codebase to the new structure without breaking existing functionality.
