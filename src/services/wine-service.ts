@@ -61,13 +61,6 @@ export async function addWine(
 ) {
   const supabase = await createClient();
   
-  // Start a transaction
-  const { error: transactionError } = await supabase.rpc('begin_transaction');
-  if (transactionError) {
-    console.error('Error starting transaction:', transactionError);
-    throw transactionError;
-  }
-
   try {
     // 1. Insert or select wine
     let wineId: string;
@@ -81,6 +74,7 @@ export async function addWine(
       .maybeSingle();
     
     if (wineQueryError) {
+      console.error('Error querying wine:', wineQueryError);
       throw wineQueryError;
     }
     
@@ -104,6 +98,7 @@ export async function addWine(
         .single();
       
       if (wineInsertError) {
+        console.error('Error inserting wine:', wineInsertError);
         throw wineInsertError;
       }
       
@@ -121,6 +116,7 @@ export async function addWine(
       .maybeSingle();
     
     if (dishQueryError) {
+      console.error('Error querying dish:', dishQueryError);
       throw dishQueryError;
     }
     
@@ -140,6 +136,7 @@ export async function addWine(
         .single();
       
       if (dishInsertError) {
+        console.error('Error inserting dish:', dishInsertError);
         throw dishInsertError;
       }
       
@@ -188,11 +185,9 @@ export async function addWine(
       .single();
     
     if (pairingError) {
+      console.error('Error creating pairing:', pairingError);
       throw pairingError;
     }
-    
-    // Commit transaction
-    await supabase.rpc('commit_transaction');
     
     // Rename wines_new to wines in the response for frontend compatibility
     const formattedPairing = {
@@ -203,8 +198,7 @@ export async function addWine(
     
     return formattedPairing;
   } catch (error) {
-    // Rollback transaction on error
-    await supabase.rpc('rollback_transaction');
+    console.error('Error in addWine:', error);
     throw error;
   }
 }
