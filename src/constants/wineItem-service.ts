@@ -2,6 +2,7 @@ import { createClient } from '@/utils/supabase/server';
 import { Wine } from './data';
 import { cookies } from 'next/headers'; // Import cookies from next/headers
 import { getWinesByUserId, addWine as addWineService, deletePairing } from '@/services/wine-service';
+import { Dish } from '@/types/database';
 
 export const wineService = {
   async getAllWines(): Promise<Wine[]> {
