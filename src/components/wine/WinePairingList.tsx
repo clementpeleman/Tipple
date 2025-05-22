@@ -145,7 +145,7 @@ export function WinePairingList() {
         <CardHeader>
           <h2 className="text-2xl font-medium">My Wine Pairings</h2>
           <p className="text-sm text-muted-foreground">
-            You haven't added any wine pairings yet
+            You haven&apos;t added any wine pairings yet
           </p>
         </CardHeader>
         <CardContent className="flex flex-col items-center justify-center p-8 text-center">
