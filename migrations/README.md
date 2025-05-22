@@ -54,6 +54,10 @@ This migration normalizes the wine storage structure in the database by creating
    - Provide a function to migrate existing data
    - (Optionally) Rename or drop the old table after confirming migration success
 
+## Important Notes
+
+1. **Transaction Handling**: The initial implementation included transaction functions (`begin_transaction`, `commit_transaction`, `rollback_transaction`), but these have been removed due to Supabase limitations with the `EXECUTE` command in RPC functions. The wine service now handles operations sequentially without explicit transactions.
+
 ## API Changes
 
 The API endpoints have been updated to work with the new schema:
