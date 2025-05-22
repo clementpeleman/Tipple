@@ -93,3 +93,20 @@ New and updated components to work with the normalized schema:
 
 - `WinePairingList.tsx` - Displays a user's wine pairings in the dashboard
 - Updated `WineRecommendations.tsx` - Works with the new API structure
+- Updated `product-listing.tsx` - Transforms data from the normalized structure to the expected format
+- Updated `columns.tsx` and `cell-action.tsx` - Use the new WinePairing type
+
+## Legacy Code Compatibility
+
+To maintain compatibility with existing code that expects the old database structure:
+
+1. **wineItem-service.ts**: Updated to work with the normalized structure while maintaining the same interface:
+   - `getAllWines()`: Fetches pairings and transforms them to match the old Wine interface
+   - `addWine()`: Creates wine, dish, and pairing records using the new structure
+   - `deleteWine()`: Deletes a pairing instead of a wine directly
+
+2. **Data Transformation**: Added transformation logic to convert between:
+   - Old structure: Wine objects with embedded dish information and user_id
+   - New structure: Separate Wine, Dish, and Pairing objects with proper relationships
+
+This approach allows us to gradually migrate the codebase to the new structure without breaking existing functionality.
