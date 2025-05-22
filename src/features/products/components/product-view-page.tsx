@@ -24,9 +24,38 @@ export default async function ProductViewPage({ productId }: TProductViewPagePro
       return <p>You must be logged in to view your wines.</p>;
     }
 
+    // Query the pairings table instead of wines directly
     const { data, error } = await supabase
-      .from('wines')
-      .select('*')
+      .from('pairings')
+      .select(`
+        id,
+        user_id,
+        wine_id,
+        dish_id,
+        relevance_score,
+        is_favorite,
+        notes,
+        created_at,
+        updated_at,
+        wines:wine_id (
+          id,
+          name,
+          description,
+          color,
+          type,
+          country,
+          region,
+          price,
+          photo_url
+        ),
+        dishes:dish_id (
+          id,
+          name,
+          translated_name,
+          dish_type,
+          cuisine
+        )
+      `)
       .eq('id', productId)
       .eq('user_id', session.user.id)
       .single();
@@ -40,7 +69,24 @@ export default async function ProductViewPage({ productId }: TProductViewPagePro
       notFound();
     }
 
-    product = data;
+    // Transform the pairing data to match the Wine interface
+    const wine = data.wines;
+    const dish = data.dishes;
+    
+    product = {
+      id: parseInt(data.id), // Convert UUID to number for backward compatibility
+      user_id: data.user_id,
+      name: wine?.name || '',
+      description: wine?.description || '',
+      category: wine?.color || '',
+      price: wine?.price || 0,
+      photo_url: wine?.photo_url || '',
+      dish: dish?.name || '',
+      dish_type: dish?.dish_type || '',
+      created_at: data.created_at,
+      updated_at: data.updated_at
+    };
+    
     pageTitle = `Edit Wine`;
   }
 
