@@ -67,14 +67,8 @@ const nextConfig = {
       },
     ];
   },
-  // Configure server to listen on all interfaces (0.0.0.0)
-  webpackDevMiddleware: (config) => {
-    config.watchOptions = {
-      poll: 1000,
-      aggregateTimeout: 300,
-    };
-    return config;
-  },
+  // Server configuration is handled via command line arguments
+  // npx next dev -p 12000 -H 0.0.0.0
 };
 
 export default nextConfig;
