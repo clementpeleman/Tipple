@@ -45,6 +45,36 @@ const nextConfig = {
       allowedOrigins: ['localhost:12000', 'localhost:12001', 'work-1-dljmpvhshlxcijzk.prod-runtime.all-hands.dev', 'work-2-dljmpvhshlxcijzk.prod-runtime.all-hands.dev'],
     },
   },
+  // Configure server to allow access from any host and support CORS
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET,OPTIONS,PATCH,DELETE,POST,PUT',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'X-CSRF-Token, X-Requested-With, Accept, Accept-Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version',
+          },
+        ],
+      },
+    ];
+  },
+  // Configure server to listen on all interfaces (0.0.0.0)
+  webpackDevMiddleware: (config) => {
+    config.watchOptions = {
+      poll: 1000,
+      aggregateTimeout: 300,
+    };
+    return config;
+  },
 };
 
 export default nextConfig;
