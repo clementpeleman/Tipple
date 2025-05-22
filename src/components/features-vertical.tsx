@@ -181,7 +181,7 @@ export default function Features({
     <section ref={ref} id="features">
       <div className="container">
         <div className="max-w-6xl mx-auto">
-          <div className="mx-auto my-12 h-full grid lg:grid-cols-2 gap-10 items-center">
+          <div className="mx-auto my-24 h-full grid lg:grid-cols-2 gap-10 items-center">
             <div
               className={` hidden lg:flex order-1 lg:order-[0] ${
                 ltr ? "lg:order-2 lg:justify-end" : "justify-start"
@@ -199,7 +199,7 @@ export default function Features({
                 {data.map((item, index) => (
                   <AccordionItem
                     key={item.id}
-                    className="relative mb-8 last:mb-0"
+                    className="relative mb-12 min-h-16 last:mb-0"
                     value={`item-${index}`}
                   >
                     {linePosition === "left" || linePosition === "right" ? (

@@ -50,13 +50,13 @@ export default function LoginForm() {
       <CardContent>
         <form onSubmit={handleSubmit}>
           <div className="grid gap-4">
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" disabled={true}>
               <Icons.google className="w-4 h-4 mr-2" />
-              Login with Google
+              Login with Google (coming soon)
             </Button>
-            <Button variant="outline" className="w-full">
+            <Button variant="outline" className="w-full" disabled={true}>
               <Icons.github className="w-4 h-4 mr-2" />
-              Login with GitHub
+              Login with GitHub (coming soon)
             </Button>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
