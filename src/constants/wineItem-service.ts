@@ -20,8 +20,9 @@ export const wineService = {
       
       // Transform pairings to match the old Wine interface
       const wines: Wine[] = pairings.map(pairing => {
-        const wine = pairing.wines;
-        const dish = pairing.dishes;
+        // Handle wines as an object (not an array)
+        const wine = pairing.wines as unknown as Wine;
+        const dish = pairing.dishes as unknown as Dish;
         
         return {
           id: parseInt(pairing.id), // Convert UUID to number for backward compatibility

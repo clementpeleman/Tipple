@@ -38,6 +38,7 @@ export interface Pairing {
 
 // Combined type for API responses
 export interface PairingWithDetails extends Pairing {
+  // Supabase returns these as objects, not arrays, despite the naming
   wines: Wine;
   dishes: Dish;
 }
