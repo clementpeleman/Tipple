@@ -54,9 +54,22 @@ This migration normalizes the wine storage structure in the database by creating
    - Provide a function to migrate existing data
    - (Optionally) Rename or drop the old table after confirming migration success
 
-## Important Notes
+## Transaction Handling
 
-1. **Transaction Handling**: The initial implementation included transaction functions (`begin_transaction`, `commit_transaction`, `rollback_transaction`), but these have been removed due to Supabase limitations with the `EXECUTE` command in RPC functions. The wine service now handles operations sequentially without explicit transactions.
+The application now uses PostgreSQL stored procedures to handle transactions properly:
+
+1. **PostgreSQL Functions**: We've implemented three main functions in `wine_transaction_functions.sql`:
+   - `add_wine_with_pairing`: Creates wine, dish, and pairing records in a single transaction
+   - `update_wine_pairing`: Updates a pairing with proper transaction handling
+   - `delete_wine_pairing`: Deletes a pairing with proper transaction handling
+
+2. **Benefits**:
+   - Atomicity: All operations succeed or fail together
+   - Data integrity: Prevents partial data if something fails mid-process
+   - Consistency: Ensures the database remains in a valid state
+   - Performance: Reduces round-trips to the database
+
+3. **Implementation**: The wine service now calls these PostgreSQL functions via Supabase's RPC interface, which automatically handles transaction boundaries.
 
 ## API Changes
 
