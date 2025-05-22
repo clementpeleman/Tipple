@@ -109,4 +109,9 @@ To maintain compatibility with existing code that expects the old database struc
    - Old structure: Wine objects with embedded dish information and user_id
    - New structure: Separate Wine, Dish, and Pairing objects with proper relationships
 
+3. **Type Handling**: Updated TypeScript types to handle both legacy and new structures:
+   - Renamed `Wine` to `LegacyWine` in imports to avoid type conflicts
+   - Added `Wine as NormalizedWine` import from the new database types
+   - Updated AlertModal component to accept both number and string IDs for backward compatibility
+
 This approach allows us to gradually migrate the codebase to the new structure without breaking existing functionality.
