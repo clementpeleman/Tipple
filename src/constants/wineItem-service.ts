@@ -1,11 +1,11 @@
 import { createClient } from '@/utils/supabase/server';
-import { Wine } from './data';
+import { Wine as LegacyWine } from './data';
 import { cookies } from 'next/headers'; // Import cookies from next/headers
 import { getWinesByUserId, addWine as addWineService, deletePairing } from '@/services/wine-service';
-import { Dish } from '@/types/database';
+import { Dish, Wine as NormalizedWine, PairingWithDetails } from '@/types/database';
 
 export const wineService = {
-  async getAllWines(): Promise<Wine[]> {
+  async getAllWines(): Promise<LegacyWine[]> {
     const cookieStore = cookies();
     const supabase = await createClient();
 
@@ -20,9 +20,9 @@ export const wineService = {
       const pairings = await getWinesByUserId(user.id);
       
       // Transform pairings to match the old Wine interface
-      const wines: Wine[] = pairings.map(pairing => {
+      const wines: LegacyWine[] = pairings.map(pairing => {
         // Handle wines as an object (not an array)
-        const wine = pairing.wines as unknown as Wine;
+        const wine = pairing.wines as unknown as NormalizedWine;
         const dish = pairing.dishes as unknown as Dish;
         
         return {
@@ -47,7 +47,7 @@ export const wineService = {
     }
   },
 
-  async addWine(wine: Omit<Wine, 'id' | 'created_at' | 'updated_at'>): Promise<Wine> {
+  async addWine(wine: Omit<LegacyWine, 'id' | 'created_at' | 'updated_at'>): Promise<LegacyWine> {
     const cookieStore = cookies();
     const supabase = await createClient();
 
@@ -101,7 +101,7 @@ export const wineService = {
     }
   },
 
-  async deleteWine(id: number): Promise<void> {
+  async deleteWine(id: number | string): Promise<void> {
     const cookieStore = cookies();
     const supabase = await createClient();
 
@@ -114,7 +114,8 @@ export const wineService = {
     try {
       // In the new structure, we delete the pairing, not the wine directly
       // The id parameter is actually the pairing id
-      await deletePairing(id.toString(), user.id);
+      const pairingId = typeof id === 'number' ? id.toString() : id;
+      await deletePairing(pairingId, user.id);
     } catch (error: any) {
       console.error('Error deleting wine:', error);
       throw new Error(error.message);
