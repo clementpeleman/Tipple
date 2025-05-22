@@ -6,7 +6,7 @@ import { toast } from 'sonner';
 interface AlertModalProps {
   isOpen: boolean;
   onClose: () => void;
-  wineId: number; // ID van de wijn die verwijderd moet worden
+  wineId: number | string; // ID van de wijn die verwijderd moet worden (can be string for UUID)
   onDeleteSuccess: () => void; // Callback om de UI te updaten na verwijderen
   loading: boolean; // Indicates if the deletion is in progress
 }
