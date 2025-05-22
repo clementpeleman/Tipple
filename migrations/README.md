@@ -54,6 +54,12 @@ This migration normalizes the wine storage structure in the database by creating
    - Provide a function to migrate existing data
    - (Optionally) Rename or drop the old table after confirming migration success
 
+3. Run the fix script: `fix_foreign_key_constraints.sql`
+4. The fix script will:
+   - Fix the foreign key constraint in the pairings table to point to the correct table
+   - Rename wines_new to wines for better naming
+   - Update the PostgreSQL functions to use the renamed table
+
 ## Transaction Handling
 
 The application now uses PostgreSQL stored procedures to handle transactions properly:

@@ -17,7 +17,7 @@ export async function getWinesByUserId(userId: string) {
       notes,
       created_at,
       updated_at,
-      wines_new:wine_id (
+      wines:wine_id (
         id,
         name,
         description,
@@ -43,12 +43,8 @@ export async function getWinesByUserId(userId: string) {
     throw error;
   }
 
-  // Rename wines_new to wines in the response for frontend compatibility
-  const formattedData = data?.map(item => ({
-    ...item,
-    wines: item.wines_new,
-    wines_new: undefined
-  }));
+  // No need to rename anymore since the table is now called 'wines'
+  const formattedData = data;
 
   return formattedData;
 }
@@ -75,11 +71,8 @@ export async function addWine(
       throw error;
     }
     
-    // Rename wines_new to wines in the response for frontend compatibility
-    const formattedPairing = {
-      ...data,
-      wines_new: undefined
-    };
+    // No need to rename anymore since the table is now called 'wines'
+    const formattedPairing = data;
     
     return formattedPairing;
   } catch (error) {
@@ -128,12 +121,8 @@ export async function updatePairing(
       throw error;
     }
     
-    // Rename wines_new to wines in the response for frontend compatibility
-    const formattedPairing = {
-      ...data,
-      wines: data.wines,
-      wines_new: undefined
-    };
+    // No need to rename anymore since the table is now called 'wines'
+    const formattedPairing = data;
     
     return formattedPairing;
   } catch (error) {

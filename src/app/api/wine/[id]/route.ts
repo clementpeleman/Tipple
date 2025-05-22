@@ -18,7 +18,7 @@ async function getPairingById(id: string, userId: string) {
       notes,
       created_at,
       updated_at,
-      wines_new:wine_id (
+      wines:wine_id (
         id,
         name,
         description,
@@ -46,12 +46,8 @@ async function getPairingById(id: string, userId: string) {
     throw new Error(error.message);
   }
 
-  // Rename wines_new to wines in the response for frontend compatibility
-  const formattedData = {
-    ...data,
-    wines: data.wines_new,
-    wines_new: undefined
-  };
+  // No need to rename anymore since the table is now called 'wines'
+  const formattedData = data;
 
   return formattedData;
 }
