@@ -1,10 +1,10 @@
 'use client';
-import { Wine } from '@/constants/data';
 import { ColumnDef } from '@tanstack/react-table';
 import Image from 'next/image';
 import { CellAction } from './cell-action';
+import { WinePairing } from '../../types';
 
-export const columns: ColumnDef<Wine>[] = [
+export const columns: ColumnDef<WinePairing>[] = [
   {
     accessorKey: 'photo_url',
     header: '',
