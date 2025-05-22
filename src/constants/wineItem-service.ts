@@ -1,9 +1,11 @@
 import { createClient } from '@/utils/supabase/server';
-import { Wine } from './data';
+import { Wine as LegacyWine } from './data';
 import { cookies } from 'next/headers'; // Import cookies from next/headers
+import { getWinesByUserId, addWine as addWineService, deletePairing } from '@/services/wine-service';
+import { Dish, Wine as NormalizedWine, PairingWithDetails } from '@/types/database';
 
 export const wineService = {
-  async getAllWines(): Promise<Wine[]> {
+  async getAllWines(): Promise<LegacyWine[]> {
     const cookieStore = cookies();
     const supabase = await createClient();
 
@@ -13,20 +15,39 @@ export const wineService = {
       throw new Error('User not authenticated');
     }
 
-    const { data: wines, error } = await supabase
-      .from('wines')
-      .select('*')
-      .eq('user_id', user.id);
-
-    if (error) {
+    try {
+      // Use the new service to get wines with their pairings
+      const pairings = await getWinesByUserId(user.id);
+      
+      // Transform pairings to match the old Wine interface
+      const wines: LegacyWine[] = pairings.map(pairing => {
+        // Handle wines as an object (not an array)
+        const wine = pairing.wines as unknown as NormalizedWine;
+        const dish = pairing.dishes as unknown as Dish;
+        
+        return {
+          id: parseInt(pairing.id), // Convert UUID to number for backward compatibility
+          user_id: pairing.user_id,
+          name: wine?.name || '',
+          description: wine?.description || '',
+          category: wine?.color || '',
+          price: wine?.price || 0,
+          photo_url: wine?.photo_url || '',
+          dish: dish?.name || '',
+          dish_type: dish?.dish_type || '',
+          created_at: pairing.created_at,
+          updated_at: pairing.updated_at
+        };
+      });
+      
+      return wines || [];
+    } catch (error: any) {
       console.error('Error fetching wines:', error);
       throw new Error(error.message);
     }
-
-    return wines || [];
   },
 
-  async addWine(wine: Omit<Wine, 'id' | 'created_at' | 'updated_at'>): Promise<Wine> {
+  async addWine(wine: Omit<LegacyWine, 'id' | 'created_at' | 'updated_at'>): Promise<LegacyWine> {
     const cookieStore = cookies();
     const supabase = await createClient();
 
@@ -36,21 +57,51 @@ export const wineService = {
       throw new Error('User not authenticated');
     }
 
-    const { data, error } = await supabase
-      .from('wines')
-      .insert([{ ...wine, user_id: user.id }])
-      .select()
-      .single();
+    try {
+      // Prepare wine data
+      const wineData = {
+        name: wine.name,
+        description: wine.description,
+        color: wine.category, // Map the old 'category' to the new 'color'
+        price: wine.price,
+        photo_url: wine.photo_url
+      };
 
-    if (error) {
+      // Prepare dish data
+      const dishData = {
+        name: wine.dish,
+        dish_type: wine.dish_type
+      };
+
+      // Prepare pairing data
+      const pairingData = {
+        is_favorite: false
+      };
+
+      // Use the new service to add the wine, dish, and pairing
+      const result = await addWineService(user.id, wineData, dishData, pairingData);
+      
+      // Transform the result to match the old Wine interface
+      return {
+        id: parseInt(result.id), // Convert UUID to number for backward compatibility
+        user_id: result.user_id,
+        name: result.wines?.name || '',
+        description: result.wines?.description || '',
+        category: result.wines?.color || '',
+        price: result.wines?.price || 0,
+        photo_url: result.wines?.photo_url || '',
+        dish: result.dishes?.name || '',
+        dish_type: result.dishes?.dish_type || '',
+        created_at: result.created_at,
+        updated_at: result.updated_at
+      };
+    } catch (error: any) {
       console.error('Error adding wine:', error);
       throw new Error(error.message);
     }
-
-    return data;
   },
 
-  async deleteWine(id: number): Promise<void> {
+  async deleteWine(id: number | string): Promise<void> {
     const cookieStore = cookies();
     const supabase = await createClient();
 
@@ -60,13 +111,12 @@ export const wineService = {
       throw new Error('User not authenticated');
     }
 
-    const { error } = await supabase
-      .from('wines')
-      .delete()
-      .eq('id', id)
-      .eq('user_id', user.id); // Controleer user_id bij het verwijderen
-
-    if (error) {
+    try {
+      // In the new structure, we delete the pairing, not the wine directly
+      // The id parameter is actually the pairing id
+      const pairingId = typeof id === 'number' ? id.toString() : id;
+      await deletePairing(pairingId, user.id);
+    } catch (error: any) {
       console.error('Error deleting wine:', error);
       throw new Error(error.message);
     }

@@ -1,4 +1,4 @@
-import { Wine } from "lucide-react";
+import { Wine as WineIcon } from "lucide-react";
 import { motion } from "framer-motion";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -61,24 +61,33 @@ export function WineRecommendations({
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          // Wine data
           name: wine.wine_recommendation,
           description: `A ${wine.color} wine from ${wine.country}.`,
-          category: wine.color,
+          category: wine.color, // This maps to 'color' in the new schema
+          type: wine.type,
+          country: wine.country,
           price: 0,
           photo_url: 'https://www.crombewines.com/cdn/shop/files/3.038.150-1-voorkant_label_7738679d-46a3-43a6-a7a6-e727cfa34342.png',
+          
+          // Dish data
           dish: originalDishName, // Use the original dish name instead of the translated one
           dish_type: dish_type,
+          
+          // Pairing data
+          relevance_score: wine.relevance
         }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to add wine to the database.');
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to add wine to the database.');
       }
 
-      toast.success('Wine added to the database successfully!');
+      toast.success('Wine pairing added to your collection!');
     } catch (error: any) {
       console.error('Error adding wine:', error);
-      toast.error('Failed to add wine to the database.');
+      toast.error(error.message || 'Failed to add wine to the database.');
     }
   };
 
@@ -136,7 +145,7 @@ export function WineRecommendations({
                                   : "text-gray-500",
                           )}
                         >
-                          <Wine className="h-5 w-5" />
+                          <WineIcon className="h-5 w-5" />
                         </div>
 
                         <div className="flex-1 flex justify-between items-center">
@@ -164,6 +173,11 @@ export function WineRecommendations({
                               <Badge className="text-xs" variant="outline">
                                 {wine.country}
                               </Badge>
+                              {wine.relevance && (
+                                <Badge className="text-xs" variant="outline">
+                                  Match: {Math.round(wine.relevance * 100)}%
+                                </Badge>
+                              )}
                             </div>
                           </div>
 

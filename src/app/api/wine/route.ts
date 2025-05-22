@@ -1,5 +1,5 @@
 // app/api/wine/route.ts
-import { createClient } from '@/utils/supabase/server';
+import { addWine, getWinesByUserId } from '@/services/wine-service';
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -11,19 +11,10 @@ export async function GET(request: Request) {
       return NextResponse.json({ error: 'Missing userId parameter' }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    // Use the new service to get wines with their pairings
+    const pairings = await getWinesByUserId(userId);
     
-    const { data: wines, error } = await supabase
-      .from('wines')
-      .select('*')
-      .eq('user_id', userId);
-
-    if (error) {
-      console.error('Error fetching wines:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
-
-    return NextResponse.json(wines || []);
+    return NextResponse.json(pairings || []);
   } catch (error: any) {
     console.error('Error in GET: ', error);
     return NextResponse.json({ error: error.message }, { status: 500 });
@@ -42,37 +33,54 @@ export async function POST(request: Request) {
 
     // Parse the request body
     const body = await request.json();
-    const { name, description, category, price, photo_url, dish, dish_type } = body;
+    const { 
+      name, 
+      description, 
+      category, // This is the wine color in the old schema
+      price, 
+      photo_url, 
+      dish, 
+      dish_type,
+      country,
+      type,
+      relevance_score
+    } = body;
 
     // Validate required fields
-    if (!name || !description || !category || price === undefined || !photo_url || !dish || !dish_type) {
+    if (!name || !category || !dish) {
       return NextResponse.json({ error: 'Missing required wine data' }, { status: 400 });
     }
 
-    const supabase = await createClient();
+    // Prepare wine data
+    const wineData = {
+      name,
+      description,
+      color: category, // Map the old 'category' to the new 'color'
+      type,
+      country,
+      price,
+      photo_url
+    };
 
-    // Insert the new wine into the database
-    const { data, error } = await supabase
-      .from('wines')
-      .insert([
-        {
-          user_id: userId,
-          name,
-          description,
-          category,
-          price,
-          photo_url,
-          dish,
-          dish_type
-        }
-      ]);
+    // Prepare dish data
+    const dishData = {
+      name: dish,
+      dish_type
+    };
 
-    if (error) {
-      console.error('Error inserting wine:', error);
-      return NextResponse.json({ error: error.message }, { status: 500 });
-    }
+    // Prepare pairing data
+    const pairingData = {
+      relevance_score: relevance_score || null,
+      is_favorite: false
+    };
 
-    return NextResponse.json({ message: 'Wine added successfully', wine: data }, { status: 201 });
+    // Use the new service to add the wine, dish, and pairing
+    const result = await addWine(userId, wineData, dishData, pairingData);
+
+    return NextResponse.json({ 
+      message: 'Wine pairing added successfully', 
+      pairing: result 
+    }, { status: 201 });
   } catch (error: any) {
     console.error('Error in POST: ', error);
     return NextResponse.json({ error: error.message }, { status: 500 });

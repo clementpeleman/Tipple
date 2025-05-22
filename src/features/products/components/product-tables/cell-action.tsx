@@ -8,14 +8,14 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
-import { Product } from '@/constants/data';
+import { WinePairing } from '../../types';
 import { Edit, MoreHorizontal, Trash } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
 interface CellActionProps {
-  data: Product;
+  data: WinePairing;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
