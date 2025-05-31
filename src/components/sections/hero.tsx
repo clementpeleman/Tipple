@@ -183,7 +183,7 @@ export default function Hero2() {
           ease={70}
           size={0.05}
           staticity={40}
-          color={"#ff1c2f"}
+          color={"#138686"}
           refresh
         />
         <div className="pointer-events-none absolute inset-x-0 -bottom-12 h-1/5 bg-gradient-to-t from-background via-background to-transparent lg:h-1/4"></div>
