@@ -1,9 +1,8 @@
-import { Wine } from '@/constants/data';
 import { searchParamsCache } from '@/lib/searchparams';
 import { DataTable as ProductTable } from '@/components/ui/table/data-table';
 import { columns } from './product-tables/columns';
 import { createClient } from '@/utils/supabase/server';
-import { cookies } from 'next/headers';
+import { Pairing, WinePairing } from '../types';
 
 type ProductListingPage = {};
 
@@ -25,9 +24,26 @@ export default async function ProductListingPage({}: ProductListingPage) {
     return <p>Failed to fetch wines.</p>;
   }
 
-  const data: Wine[] = await response.json();
-  const totalProducts = data.length;
-  const products: Wine[] = data;
+  const pairings: Pairing[] = await response.json();
+  
+  // Transform pairings to match the expected format for the table
+  const products: WinePairing[] = pairings.map(pairing => {
+    const wine = pairing.wines;
+    const dish = pairing.dishes;
+    
+    return {
+      ...pairing,
+      name: wine?.name || '',
+      description: wine?.description || '',
+      category: wine?.color || '',
+      price: wine?.price || 0,
+      photo_url: wine?.photo_url || '',
+      dish: dish?.name || '',
+      dish_type: dish?.dish_type || ''
+    };
+  });
+  
+  const totalProducts = products.length;
 
   return (
     <ProductTable
