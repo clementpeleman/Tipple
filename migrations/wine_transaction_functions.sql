@@ -186,17 +186,29 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 GRANT EXECUTE ON FUNCTION update_wine_pairing TO authenticated;
 
 -- Function to delete a pairing
-CREATE OR REPLACE FUNCTION delete_wine_pairing(
-  pairing_id UUID,
-  user_id UUID
-) RETURNS BOOLEAN AS $$
-BEGIN
-  DELETE FROM pairings
-  WHERE id = pairing_id AND user_id = user_id;
-  
-  RETURN FOUND;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+-- Drop the existing function if it exists
+DROP FUNCTION IF EXISTS delete_wine_pairing(uuid, uuid);
 
+-- Create the corrected function
+CREATE OR REPLACE FUNCTION delete_wine_pairing(
+  pairing_id_param uuid,
+  user_id_param uuid
+)
+RETURNS void
+LANGUAGE plpgsql
+SECURITY DEFINER
+AS $$
+BEGIN
+  -- Delete the pairing record, ensuring it belongs to the specified user
+  DELETE FROM public.pairings 
+  WHERE pairings.id = pairing_id_param 
+    AND pairings.user_id = user_id_param;
+  
+  -- Check if any row was actually deleted
+  IF NOT FOUND THEN
+    RAISE EXCEPTION 'Pairing not found or you do not have permission to delete it';
+  END IF;
+END;
+$$;
 -- Grant access to the function
 GRANT EXECUTE ON FUNCTION delete_wine_pairing TO authenticated;

@@ -86,8 +86,8 @@ export async function deletePairing(pairingId: string, userId: string) {
   
   try {
     const { data, error } = await supabase.rpc('delete_wine_pairing', {
-      pairing_id: pairingId,
-      user_id: userId
+      pairing_id_param: pairingId,
+      user_id_param: userId
     });
     
     if (error) {
