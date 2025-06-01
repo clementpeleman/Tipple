@@ -41,9 +41,9 @@ export function AreaGraph() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Area Chart - Stacked</CardTitle>
+        <CardTitle>Current Stock</CardTitle>
         <CardDescription>
-          Showing total visitors for the last 6 months
+          Showing total stock vs lowest bottle count
         </CardDescription>
       </CardHeader>
       <CardContent>

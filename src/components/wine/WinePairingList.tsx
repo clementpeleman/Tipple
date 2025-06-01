@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Wine as WineIcon, Trash2, Heart, Star } from 'lucide-react';
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
@@ -143,7 +143,7 @@ export function WinePairingList() {
     return (
       <Card>
         <CardHeader>
-          <h2 className="text-2xl font-medium">My Wine Pairings</h2>
+          <CardTitle>My Wine Pairings</CardTitle>
           <p className="text-sm text-muted-foreground">
             You haven&apos;t added any wine pairings yet
           </p>
@@ -161,10 +161,8 @@ export function WinePairingList() {
   return (
     <Card>
       <CardHeader>
-        <h2 className="text-2xl font-medium">My Wine Pairings</h2>
-        <p className="text-sm text-muted-foreground">
-          Your saved wine and dish pairings
-        </p>
+        <CardTitle>My Wine Pairings</CardTitle>
+        <CardDescription>Your saved wine and dish pairings</CardDescription>
       </CardHeader>
       <CardContent className="space-y-4">
         {pairings.map((pairing) => (
