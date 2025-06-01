@@ -225,7 +225,7 @@ export function WinePairingList() {
                     )}
                     {pairing.relevance_score && (
                       <Badge className="text-xs" variant="outline">
-                        Match: {Math.round(pairing.relevance_score * 100)}%
+                        Match: {Math.round(pairing.relevance_score)}%
                       </Badge>
                     )}
                   </div>
