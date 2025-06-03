@@ -28,14 +28,14 @@ type PairingResponse = {
     region?: string;
     price?: number;
     photo_url?: string;
-  } | null;
+  }[] | null;
   dishes: {
     id: string;
     name: string;
     translated_name?: string;
     dish_type?: string;
     cuisine?: string;
-  } | null;
+  }[] | null;
 };
 
 export default async function ProductViewPage({ productId }: TProductViewPageProps) {
