@@ -41,7 +41,7 @@ export function MenuList({ categories, isLoading }: MenuListProps) {
                   <span>{dish.name}</span>
                   {dish.price !== null && (
                     <span className="text-muted-foreground">
-                      ${dish.price.toFixed(2)}
+                      €{dish.price.toFixed(2)}
                     </span>
                   )}
                 </CardContent>
