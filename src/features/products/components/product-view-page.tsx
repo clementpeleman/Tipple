@@ -8,6 +8,36 @@ type TProductViewPageProps = {
   productId: string;
 };
 
+type PairingResponse = {
+  id: number;
+  user_id: string;
+  wine_id: string;
+  dish_id: string;
+  relevance_score?: number;
+  is_favorite?: boolean;
+  notes?: string;
+  created_at: string;
+  updated_at: string;
+  wines: {
+    id: string;
+    name: string;
+    description?: string;
+    color?: string;
+    type?: string;
+    country?: string;
+    region?: string;
+    price?: number;
+    photo_url?: string;
+  } | null;
+  dishes: {
+    id: string;
+    name: string;
+    translated_name?: string;
+    dish_type?: string;
+    cuisine?: string;
+  } | null;
+};
+
 export default async function ProductViewPage({ productId }: TProductViewPageProps) {
   let product: Wine | null = null;
   let pageTitle = 'Create New Wine';
@@ -19,17 +49,13 @@ export default async function ProductViewPage({ productId }: TProductViewPagePro
       error: sessionError,
     } = await supabase.auth.getSession();
 
-    // For testing purposes, we'll allow access without authentication
-    // In production, this would require authentication
     if (sessionError) {
       console.error('Session error:', sessionError);
       return <p>Error checking authentication status.</p>;
     }
-    
-    // Create a mock user ID if there's no session for testing
+
     const userId = session?.user?.id || 'test-user-id';
 
-    // Query the pairings table to get the pairing with related wine and dish data
     const { data, error } = await supabase
       .from('pairings')
       .select(`
@@ -74,31 +100,31 @@ export default async function ProductViewPage({ productId }: TProductViewPagePro
       notFound();
     }
 
-    // Since we're using explicit foreign key names, these should be single objects, not arrays
-    // But let's handle both cases to be safe
-    const wine = Array.isArray(data.wines) ? data.wines[0] : data.wines;
-    const dish = Array.isArray(data.dishes) ? data.dishes[0] : data.dishes;
-    
+    const pairing = data as PairingResponse;
+
+    const wine = Array.isArray(pairing.wines) ? pairing.wines[0] : pairing.wines;
+    const dish = Array.isArray(pairing.dishes) ? pairing.dishes[0] : pairing.dishes;
+
     if (!wine) {
       console.error('No wine data found for pairing');
       return <p>Wine data not found.</p>;
     }
-    
+
     product = {
-      id: data.id, // Keep as UUID string since that's what your DB uses
-      user_id: data.user_id,
-      name: wine.name || '',
-      description: wine.description || '',
-      category: wine.color || '',
-      price: wine.price || 0,
-      photo_url: wine.photo_url || '',
-      dish: dish?.name || '',
-      dish_type: dish?.dish_type || '',
-      created_at: data.created_at,
-      updated_at: data.updated_at
+      id: pairing.id,
+      user_id: pairing.user_id,
+      name: wine.name ?? '',
+      description: wine.description ?? '',
+      category: wine.color ?? '',
+      price: wine.price ?? 0,
+      photo_url: wine.photo_url ?? '',
+      dish: dish?.name ?? '',
+      dish_type: dish?.dish_type ?? '',
+      created_at: pairing.created_at,
+      updated_at: pairing.updated_at,
     };
-    
-    pageTitle = `Edit Wine Pairing`;
+
+    pageTitle = 'Edit Wine Pairing';
   }
 
   return (

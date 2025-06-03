@@ -12,14 +12,14 @@ export function RecentSales() {
     <Card>
       <CardHeader>
         <CardTitle>Recent Bottles</CardTitle>
-        <CardDescription>You sold 0 bottles this month.</CardDescription>
+        <CardDescription>You sold 5 bottles this month.</CardDescription>
       </CardHeader>
       <CardContent>
         <div className='space-y-8'>
           <div className='flex items-center'>
             <Avatar className='h-9 w-9'>
               <AvatarImage
-                src='https://api.slingacademy.com/public/sample-users/1.png'
+                src='https://api.slingacademy.com/public/sample-users/5.png'
                 alt='Avatar'
               />
               <AvatarFallback>OM</AvatarFallback>
@@ -35,7 +35,7 @@ export function RecentSales() {
           <div className='flex items-center'>
             <Avatar className='flex h-9 w-9 items-center justify-center space-y-0 border'>
               <AvatarImage
-                src='https://api.slingacademy.com/public/sample-users/2.png'
+                src='https://api.slingacademy.com/public/sample-users/5.png'
                 alt='Avatar'
               />
               <AvatarFallback>JL</AvatarFallback>
@@ -51,7 +51,7 @@ export function RecentSales() {
           <div className='flex items-center'>
             <Avatar className='h-9 w-9'>
               <AvatarImage
-                src='https://api.slingacademy.com/public/sample-users/3.png'
+                src='https://api.slingacademy.com/public/sample-users/5.png'
                 alt='Avatar'
               />
               <AvatarFallback>IN</AvatarFallback>
@@ -69,7 +69,7 @@ export function RecentSales() {
           <div className='flex items-center'>
             <Avatar className='h-9 w-9'>
               <AvatarImage
-                src='https://api.slingacademy.com/public/sample-users/4.png'
+                src='https://api.slingacademy.com/public/sample-users/5.png'
                 alt='Avatar'
               />
               <AvatarFallback>WK</AvatarFallback>

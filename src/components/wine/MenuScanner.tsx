@@ -7,6 +7,7 @@ import imageCompression from "browser-image-compression";
 import { MenuInput } from "./MenuInput";
 import { MenuDisplay } from "./MenuDisplay";
 import { WineRecommendations } from "./WineRecommendations";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 
 import { toast } from "sonner"; // Import toast from sonner
 
@@ -236,13 +237,25 @@ export function MenuScanner() {
             {isLoading && recommendations.length === 0 && (
               <motion.div
                 animate={{ opacity: 1, x: 0 }}
-                className="md:sticky md:top-24 h-fit"
                 initial={{ opacity: 0, x: 20 }}
+                className="md:sticky md:top-24 h-fit"
               >
-                <div className="flex items-center justify-center p-8 bg-card rounded-lg shadow">
-                  <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mr-2" />
-                  <p>Loading wine recommendations...</p>
-                </div>
+                <Card className="backdrop-blur-sm bg-card/80 border border-neutral-200 dark:border-neutral-800 shadow-md rounded-xl">
+                  <CardHeader>
+                    <h2 className="text-2xl font-medium">Wine Recommendations</h2>
+                    <p className="text-sm text-muted-foreground">
+                      Pairings for your menu
+                    </p>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-center py-8">
+                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mr-4" />
+                      <p className="text-muted-foreground dark:text-neutral-200">
+                        Loading wine recommendations...
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
               </motion.div>
             )}
           </motion.div>
