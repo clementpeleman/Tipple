@@ -114,7 +114,7 @@ export function WineRecommendations({
       <CardHeader>
         <h2 className="text-2xl font-medium">Wine Recommendations</h2>
         <p className="text-sm text-muted-foreground">
-          Perfect pairings for your menu
+          Pairings for your menu
         </p>
       </CardHeader>
       <CardContent className="space-y-8">

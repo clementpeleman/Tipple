@@ -153,7 +153,7 @@ export function MenuScanner() {
       const data = await response.json();
 
       setRecommendations(data);
-      toast.success("Wine recommendations ready. Discover the perfect pairings for your menu.");
+      toast.success("Wine recommendations ready. Discover pairings for your menu.");
     } catch (error) {
       console.error("Error getting recommendations:", error);
       toast.error("Error getting recommendations. Please try again.");

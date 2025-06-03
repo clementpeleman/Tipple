@@ -96,7 +96,7 @@ export function MenuDisplay({
             {isLoading ? (
               <>
                 <Loader className="mr-2 h-4 w-4 animate-spin" />
-                Finding Perfect Pairings...
+                Finding Pairings...
               </>
             ) : (
               "Get Wine Recommendations"
