@@ -15,7 +15,10 @@ export function createClient() {
         signOut: () => Promise.resolve({ error: null }),
         onAuthStateChange: () => ({ data: { subscription: { unsubscribe: () => {} } } }),
       },
-      // Add other methods as needed
+      // Here's the mock implementation of rpc!
+      rpc: (name: string, params?: any) =>
+        Promise.resolve({ data: null, error: { message: 'Mock client: no RPC' } }),
+      // You can add more methods as needed...
     };
   }
   

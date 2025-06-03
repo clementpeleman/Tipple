@@ -4,15 +4,11 @@ import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { createClient } from '@supabase/supabase-js';
-import { Button } from "../ui/button";
+import { createClient } from '@/utils/supabase/client';
+import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL as string;
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY as string;
-import type { SupabaseClient } from '@supabase/supabase-js';
-
-const supabase: SupabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+const supabase = createClient();
 
 interface WinePairing {
   wine_recommendation: string;
