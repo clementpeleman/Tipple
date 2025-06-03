@@ -151,9 +151,29 @@ export function MenuScanner() {
       }
 
       const data = await response.json();
-
-      setRecommendations(data);
-      toast.success("Wine recommendations ready. Discover pairings for your menu.");
+      
+      // Log the data to see what's being returned
+      console.log("Wine recommendations data:", data);
+      
+      // Handle different possible response formats
+      if (Array.isArray(data) && data.length > 0) {
+        // Direct array format
+        setRecommendations(data);
+        toast.success("Wine recommendations ready. Discover pairings for your menu.");
+      } else if (data.successful_recommendations && Array.isArray(data.successful_recommendations) && data.successful_recommendations.length > 0) {
+        // Object with successful_recommendations array
+        setRecommendations(data.successful_recommendations);
+        toast.success("Wine recommendations ready. Discover pairings for your menu.");
+        
+        // Log any failed recommendations
+        if (data.failed_recommendations && data.failed_recommendations.length > 0) {
+          console.warn("Some dishes couldn't be paired:", data.failed_recommendations);
+          toast.warning(`${data.failed_recommendations.length} dishes couldn't be paired with wine.`);
+        }
+      } else {
+        console.error("Received empty or invalid recommendations data:", data);
+        toast.error("No wine recommendations found for your menu items.");
+      }
     } catch (error) {
       console.error("Error getting recommendations:", error);
       toast.error("Error getting recommendations. Please try again.");
@@ -201,7 +221,7 @@ export function MenuScanner() {
                 onReset={handleReset}
               />
             </div>
-            {recommendations.length > 0 && (
+            {recommendations && recommendations.length > 0 && (
               <motion.div
                 animate={{ opacity: 1, x: 0 }}
                 className="md:sticky md:top-24 h-fit"
@@ -211,6 +231,18 @@ export function MenuScanner() {
                   recommendations={recommendations} 
                   dishCategoryMap={dishCategoryMap} 
                 />
+              </motion.div>
+            )}
+            {isLoading && recommendations.length === 0 && (
+              <motion.div
+                animate={{ opacity: 1, x: 0 }}
+                className="md:sticky md:top-24 h-fit"
+                initial={{ opacity: 0, x: 20 }}
+              >
+                <div className="flex items-center justify-center p-8 bg-card rounded-lg shadow">
+                  <div className="animate-spin rounded-full h-8 w-8 border-2 border-primary border-t-transparent mr-2" />
+                  <p>Loading wine recommendations...</p>
+                </div>
               </motion.div>
             )}
           </motion.div>
