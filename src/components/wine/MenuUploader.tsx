@@ -27,7 +27,7 @@ export function MenuUploader({ onUpload, isLoading }: MenuUploaderProps) {
     <div className="space-y-4">
       <div className="border-2 border-dashed border-muted rounded-lg p-6 text-center transition-colors hover:border-muted-foreground/50">
         <input
-          accept="image/*"
+          accept="image/*,application/pdf"
           className="hidden"
           disabled={isLoading}
           id="menu-image"

@@ -60,16 +60,21 @@ export function MenuScanner() {
   const handleUpload = async (file: File) => {
     setIsLoading(true);
     try {
-      const options = {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 2048,
-        useWebWorker: true,
-      };
+      let uploadFile = file;
 
-      const compressedFile = await imageCompression(file, options);
+      // Alleen afbeeldingen comprimeren
+      if (file.type.startsWith("image/")) {
+        const options = {
+          maxSizeMB: 1,
+          maxWidthOrHeight: 2048,
+          useWebWorker: true,
+        };
+        uploadFile = await imageCompression(file, options);
+      }
+
       const formData = new FormData();
-
-      formData.append("image", compressedFile);
+      // Gebruik "file" i.p.v. "image" als key, zodat je backend beide types kan accepteren
+      formData.append("file", uploadFile);
 
       const res = await fetch("/api/upload", {
         method: "POST",
@@ -154,7 +159,7 @@ export function MenuScanner() {
       const data = await response.json();
       
       // Log the data to see what's being returned
-      console.log("Wine recommendations data:", data);
+      // console.log("Wine recommendations data:", data);
       
       // Handle different possible response formats
       if (Array.isArray(data) && data.length > 0) {
