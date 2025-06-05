@@ -53,7 +53,7 @@ interface FileUploaderProps extends React.HTMLAttributes<HTMLDivElement> {
    * @type { [key: string]: string[]}
    * @default
    * ```ts
-   * { "image/*": [] }
+   * { 'image/*': [], 'application/pdf': [] }
    * ```
    * @example accept={["image/png", "image/jpeg"]}
    */
@@ -98,7 +98,8 @@ export function FileUploader(props: FileUploaderProps) {
     onValueChange,
     onUpload,
     progresses,
-    accept = { 'image/*': [] },
+    // 👇 Voeg pdf toe aan de standaard accept
+    accept = { 'image/*': [], 'application/pdf': [] },
     maxSize = 1024 * 1024 * 2,
     maxFiles = 1,
     multiple = false,

@@ -17,7 +17,7 @@ export default function Scanner() {
             />
         </div>
         <Separator />
-        <div className="w-[80vw] pt-4 max-w-4xl">
+        <div className="md:w-[80vw] pt-4 max-w-4xl">
             <MenuScanner />
         </div>
       </div>
