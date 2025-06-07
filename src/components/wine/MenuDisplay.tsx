@@ -75,7 +75,7 @@ export function MenuDisplay({
                         <span className="font-medium">{dish.name}</span>
                         {dish.price && (
                           <span className="text-sm text-muted-foreground">
-                            ${dish.price.toFixed(2)}
+                            €{dish.price.toFixed(2)}
                           </span>
                         )}
                       </div>

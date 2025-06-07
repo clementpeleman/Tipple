@@ -151,9 +151,9 @@ export default function OverViewPage() {
                   <RecentSales />
                 </CardContent>
               </Card>
-              <div className='col-span-4'>
+              {/* <div className='col-span-4'>
                 <AreaGraph />
-              </div>
+              </div> */}
               <div className='col-span-4 md:col-span-3'>
                 <PieGraph />
               </div>
