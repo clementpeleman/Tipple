@@ -1,6 +1,7 @@
 // app/api/wine/route.ts
 import { addWine, getWinesByUserId } from '@/services/wine-service';
 import { NextResponse } from 'next/server';
+import { Dish, Pairing, Wine } from '@/types/database';
 
 export async function GET(request: Request) {
   try {
@@ -8,7 +9,7 @@ export async function GET(request: Request) {
     const userId = url.searchParams.get('userId');
     const searchQuery = url.searchParams.get('q');
     const categoriesFilter = url.searchParams.get('categories');
-    
+   
     if (!userId) {
       return NextResponse.json({ error: 'Missing userId parameter' }, { status: 400 });
     }
@@ -16,36 +17,45 @@ export async function GET(request: Request) {
     // Use the service to get wines with their pairings
     const pairings = await getWinesByUserId(userId);
     
-    // Apply filters if provided
-    let filteredPairings = [...pairings];
-    
+    // Ensure pairings is always an array
+    const safePairings = Array.isArray(pairings) ? pairings : [];
+    let filteredPairings = [...safePairings];
+   
     // Apply search filter if provided
     if (searchQuery && searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase();
       filteredPairings = filteredPairings.filter(pairing => {
-        const wine = pairing.wines;
-        const dish = pairing.dishes;
-        
+        const wines = pairing.wines as Wine[];
+        const dishes = pairing.dishes as Dish[];
+       
         // Search in wine name, description, and dish name
-        return (
+        const wineMatch = Array.isArray(wines) ? wines.some(wine => 
           (wine?.name && wine.name.toLowerCase().includes(query)) ||
-          (wine?.description && wine.description.toLowerCase().includes(query)) ||
-          (dish?.name && dish.name.toLowerCase().includes(query))
-        );
+          (wine?.description && wine.description.toLowerCase().includes(query))
+        ) : false;
+
+        const dishMatch = Array.isArray(dishes) ? dishes.some(dish =>
+          dish?.name && dish.name.toLowerCase().includes(query)
+        ) : false;
+
+        return wineMatch || dishMatch;
       });
     }
-    
+   
     // Apply category filter if provided
     if (categoriesFilter && categoriesFilter.trim() !== '') {
       const categories = categoriesFilter.split('.');
       if (categories.length > 0) {
         filteredPairings = filteredPairings.filter(pairing => {
-          const wine = pairing.wines;
-          return wine?.color && categories.includes(wine.color);
+          const wines = pairing.wines as Wine[];
+          
+          return Array.isArray(wines) ? wines.some(wine =>
+            wine?.color && categories.includes(wine.color)
+          ) : false;
         });
       }
     }
-    
+   
     return NextResponse.json(filteredPairings || []);
   } catch (error: any) {
     console.error('Error in GET: ', error);
@@ -58,20 +68,20 @@ export async function POST(request: Request) {
     // Extract userId from the URL
     const url = new URL(request.url);
     const userId = url.searchParams.get('userId');
-    
+   
     if (!userId) {
       return NextResponse.json({ error: 'Missing userId parameter' }, { status: 400 });
     }
 
     // Parse the request body
     const body = await request.json();
-    const { 
-      name, 
-      description, 
+    const {
+      name,
+      description,
       category, // This is the wine color in the old schema
-      price, 
-      photo_url, 
-      dish, 
+      price,
+      photo_url,
+      dish,
       dish_type,
       country,
       type,
@@ -109,9 +119,9 @@ export async function POST(request: Request) {
     // Use the new service to add the wine, dish, and pairing
     const result = await addWine(userId, wineData, dishData, pairingData);
 
-    return NextResponse.json({ 
-      message: 'Wine pairing added successfully', 
-      pairing: result 
+    return NextResponse.json({
+      message: 'Wine pairing added successfully',
+      pairing: result
     }, { status: 201 });
   } catch (error: any) {
     console.error('Error in POST: ', error);
