@@ -9,6 +9,8 @@ interface AlertModalProps {
   wineId: number | string; // ID van de wijn die verwijderd moet worden (can be string for UUID)
   onDeleteSuccess: () => void; // Callback om de UI te updaten na verwijderen
   loading: boolean; // Indicates if the deletion is in progress
+  title?: string; // Optional custom title
+  description?: string; // Optional custom description
 }
 
 export const AlertModal: React.FC<AlertModalProps> = ({
@@ -17,6 +19,8 @@ export const AlertModal: React.FC<AlertModalProps> = ({
   wineId,
   onDeleteSuccess,
   loading,
+  title = "Are you sure?",
+  description = "This action cannot be undone."
 }) => {
   const [isMounted, setIsMounted] = useState(false);
 
@@ -30,8 +34,8 @@ export const AlertModal: React.FC<AlertModalProps> = ({
 
   return (
     <Modal
-      title="Are you sure?"
-      description="This action cannot be undone."
+      title={title}
+      description={description}
       isOpen={isOpen}
       onClose={onClose}
     >

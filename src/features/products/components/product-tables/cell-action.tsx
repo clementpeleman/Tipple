@@ -29,11 +29,9 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
       const response = await fetch(`/api/wine/${data.id}`, {
         method: 'DELETE',
       });
-
       if (!response.ok) {
         throw new Error('Failed to delete wine');
       }
-
       toast.success('Wine deleted successfully!');
       router.refresh(); // Refresh the route to update the table
     } catch (error: any) {
@@ -63,7 +61,6 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align='end'>
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
           <DropdownMenuItem
             onClick={() => router.push(`/dashboard/product/${data.id}`)}
           >
