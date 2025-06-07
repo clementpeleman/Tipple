@@ -6,15 +6,47 @@ export async function GET(request: Request) {
   try {
     const url = new URL(request.url);
     const userId = url.searchParams.get('userId');
+    const searchQuery = url.searchParams.get('q');
+    const categoriesFilter = url.searchParams.get('categories');
     
     if (!userId) {
       return NextResponse.json({ error: 'Missing userId parameter' }, { status: 400 });
     }
 
-    // Use the new service to get wines with their pairings
+    // Use the service to get wines with their pairings
     const pairings = await getWinesByUserId(userId);
     
-    return NextResponse.json(pairings || []);
+    // Apply filters if provided
+    let filteredPairings = [...pairings];
+    
+    // Apply search filter if provided
+    if (searchQuery && searchQuery.trim() !== '') {
+      const query = searchQuery.toLowerCase();
+      filteredPairings = filteredPairings.filter(pairing => {
+        const wine = pairing.wines;
+        const dish = pairing.dishes;
+        
+        // Search in wine name, description, and dish name
+        return (
+          (wine?.name && wine.name.toLowerCase().includes(query)) ||
+          (wine?.description && wine.description.toLowerCase().includes(query)) ||
+          (dish?.name && dish.name.toLowerCase().includes(query))
+        );
+      });
+    }
+    
+    // Apply category filter if provided
+    if (categoriesFilter && categoriesFilter.trim() !== '') {
+      const categories = categoriesFilter.split('.');
+      if (categories.length > 0) {
+        filteredPairings = filteredPairings.filter(pairing => {
+          const wine = pairing.wines;
+          return wine?.color && categories.includes(wine.color);
+        });
+      }
+    }
+    
+    return NextResponse.json(filteredPairings || []);
   } catch (error: any) {
     console.error('Error in GET: ', error);
     return NextResponse.json({ error: error.message }, { status: 500 });

@@ -15,8 +15,25 @@ export default async function ProductListingPage({}: ProductListingPage) {
   }
 
   const apiUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  
+  // Get search params from cache
+  const params = searchParamsCache.get();
+  const searchQuery = params?.q || '';
+  const categoriesFilter = params?.categories || '';
+  
+  // Build the URL with query parameters
+  const url = new URL(`${apiUrl}/api/wine`);
+  url.searchParams.append('userId', user.id);
+  
+  if (searchQuery) {
+    url.searchParams.append('q', searchQuery);
+  }
+  
+  if (categoriesFilter) {
+    url.searchParams.append('categories', categoriesFilter);
+  }
 
-  const response = await fetch(`${apiUrl}/api/wine?userId=${user.id}`, {
+  const response = await fetch(url.toString(), {
     cache: 'no-store',
   });
 
