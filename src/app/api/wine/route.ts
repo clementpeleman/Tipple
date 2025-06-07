@@ -25,18 +25,19 @@ export async function GET(request: Request) {
     if (searchQuery && searchQuery.trim() !== '') {
       const query = searchQuery.toLowerCase();
       filteredPairings = filteredPairings.filter(pairing => {
-        const wines = pairing.wines as Wine[];
-        const dishes = pairing.dishes as Dish[];
-       
-        // Search in wine name, description, and dish name
-        const wineMatch = Array.isArray(wines) ? wines.some(wine => 
-          (wine?.name && wine.name.toLowerCase().includes(query)) ||
-          (wine?.description && wine.description.toLowerCase().includes(query))
-        ) : false;
+        // Check ALL wines and ALL dishes for a match
+        const wineMatch = Array.isArray(pairing.wines)
+          ? pairing.wines.some(wine =>
+              (wine?.name && wine.name.toLowerCase().includes(query)) ||
+              (wine?.description && wine.description.toLowerCase().includes(query))
+            )
+          : false;
 
-        const dishMatch = Array.isArray(dishes) ? dishes.some(dish =>
-          dish?.name && dish.name.toLowerCase().includes(query)
-        ) : false;
+        const dishMatch = Array.isArray(pairing.dishes)
+          ? pairing.dishes.some(dish =>
+              dish?.name && dish.name.toLowerCase().includes(query)
+            )
+          : false;
 
         return wineMatch || dishMatch;
       });
@@ -47,11 +48,10 @@ export async function GET(request: Request) {
       const categories = categoriesFilter.split('.');
       if (categories.length > 0) {
         filteredPairings = filteredPairings.filter(pairing => {
-          const wines = pairing.wines as Wine[];
-          
-          return Array.isArray(wines) ? wines.some(wine =>
-            wine?.color && categories.includes(wine.color)
-          ) : false;
+          // Check ALL wines for a color match
+          return Array.isArray(pairing.wines)
+            ? pairing.wines.some(wine => wine?.color && categories.includes(wine.color))
+            : false;
         });
       }
     }
@@ -78,7 +78,7 @@ export async function POST(request: Request) {
     const {
       name,
       description,
-      category, // This is the wine color in the old schema
+      color, // This is the wine color in the old schema
       price,
       photo_url,
       dish,
@@ -89,7 +89,7 @@ export async function POST(request: Request) {
     } = body;
 
     // Validate required fields
-    if (!name || !category || !dish) {
+    if (!name || !color || !dish) {
       return NextResponse.json({ error: 'Missing required wine data' }, { status: 400 });
     }
 
@@ -97,7 +97,7 @@ export async function POST(request: Request) {
     const wineData = {
       name,
       description,
-      color: category, // Map the old 'category' to the new 'color'
+      color,
       type,
       country,
       price,
