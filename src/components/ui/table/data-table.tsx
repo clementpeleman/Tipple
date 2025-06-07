@@ -16,6 +16,8 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
+import { Checkbox } from '@/components/ui/checkbox';
+import { AlertModal } from '@/components/modal/alert-modal';
 import {
   DoubleArrowLeftIcon,
   DoubleArrowRightIcon
@@ -25,11 +27,16 @@ import {
   flexRender,
   getCoreRowModel,
   getPaginationRowModel,
+  getSortedRowModel,
   PaginationState,
+  SortingState,
   useReactTable
 } from '@tanstack/react-table';
-import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
+import { ChevronLeftIcon, ChevronRightIcon, Trash } from 'lucide-react';
 import { parseAsInteger, useQueryState } from 'nuqs';
+import { useState } from 'react';
+import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -55,6 +62,14 @@ export function DataTable<TData, TValue>({
       .withDefault(10)
   );
 
+  const [rowSelection, setRowSelection] = useState({});
+  const [sorting, setSorting] = useState<SortingState>([
+    { id: 'dish', desc: false } // Default sort by dish name
+  ]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const router = useRouter();
+
   const paginationState = {
     pageIndex: currentPage - 1, // zero-based index for React Table
     pageSize: pageSize
@@ -76,22 +91,104 @@ export function DataTable<TData, TValue>({
     setPageSize(pagination.pageSize);
   };
 
+  // Enhanced columns with checkbox selection
+  const enhancedColumns: ColumnDef<TData, TValue>[] = [
+    {
+      id: 'select',
+      header: ({ table }: { table: any }) => (
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected() ||
+            (table.getIsSomePageRowsSelected() && 'indeterminate')
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+        />
+      ),
+      cell: ({ row }: { row: any }) => (
+        <Checkbox
+          checked={row.getIsSelected()}
+          onCheckedChange={(value) => row.toggleSelected(!!value)}
+          aria-label="Select row"
+        />
+      ),
+      enableSorting: false,
+      enableHiding: false,
+    },
+    ...columns
+  ];
+
   const table = useReactTable({
     data,
-    columns,
+    columns: enhancedColumns,
     pageCount: pageCount,
     state: {
-      pagination: paginationState
+      pagination: paginationState,
+      rowSelection,
+      sorting
     },
     onPaginationChange: handlePaginationChange,
+    onRowSelectionChange: setRowSelection,
+    onSortingChange: setSorting,
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getSortedRowModel: getSortedRowModel(),
     manualPagination: true,
-    manualFiltering: true
+    manualFiltering: true,
+    enableRowSelection: true
   });
+
+  const selectedRows = table.getFilteredSelectedRowModel().rows;
+  const selectedCount = selectedRows.length;
+
+  const onDeleteMultiple = async () => {
+    setDeleteLoading(true);
+    try {
+      const deletePromises = selectedRows.map(row => 
+        fetch(`/api/wine/${(row.original as any).id}`, {
+          method: 'DELETE',
+        })
+      );
+
+      const responses = await Promise.all(deletePromises);
+      const failedDeletes = responses.filter(response => !response.ok);
+      
+      if (failedDeletes.length > 0) {
+        throw new Error(`Failed to delete ${failedDeletes.length} wine(s)`);
+      }
+
+      toast.success(`Successfully deleted ${selectedRows.length} wine(s)!`);
+      setRowSelection({});
+      router.refresh(); // Refresh the route to update the table
+    } catch (error: any) {
+      toast.error('Failed to delete selected wines.');
+      console.error(error);
+    } finally {
+      setDeleteModalOpen(false);
+      setDeleteLoading(false);
+    }
+  };
 
   return (
     <div className='flex flex-1 flex-col space-y-4'>
+      {/* Bulk Actions Bar */}
+      {selectedCount > 0 && (
+        <div className='flex items-center justify-between rounded-md border bg-muted/50 p-3'>
+          <div className='text-sm text-muted-foreground'>
+            {selectedCount} wine{selectedCount === 1 ? '' : 's'} selected
+          </div>
+          <Button
+            variant="destructive"
+            size="sm"
+            onClick={() => setDeleteModalOpen(true)}
+            className='flex items-center gap-2'
+          >
+            <Trash className='h-4 w-4' />
+            Delete Selected
+          </Button>
+        </div>
+      )}
+
       <div className='relative flex flex-1'>
         <div className='absolute bottom-0 left-0 right-0 top-0 flex overflow-scroll rounded-md border md:overflow-auto'>
           <ScrollArea className='flex-1'>
@@ -132,7 +229,7 @@ export function DataTable<TData, TValue>({
                 ) : (
                   <TableRow>
                     <TableCell
-                      colSpan={columns.length}
+                      colSpan={enhancedColumns.length}
                       className='h-24 text-center'
                     >
                       No results.
@@ -238,6 +335,17 @@ export function DataTable<TData, TValue>({
           </div>
         </div>
       </div>
+
+      {/* Delete Confirmation Modal */}
+      <AlertModal
+        isOpen={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onDeleteSuccess={onDeleteMultiple}
+        wineId="" // Not used for bulk delete
+        loading={deleteLoading}
+        title={`Delete ${selectedCount} Wine${selectedCount === 1 ? '' : 's'}`}
+        description={`Are you sure you want to delete ${selectedCount} selected wine${selectedCount === 1 ? '' : 's'}? This action cannot be undone.`}
+      />
     </div>
   );
 }
