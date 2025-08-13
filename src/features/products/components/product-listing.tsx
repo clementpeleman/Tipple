@@ -4,9 +4,11 @@ import { columns } from './product-tables/columns';
 import { createClient } from '@/utils/supabase/server';
 import { Pairing, WinePairing } from '../types';
 
-type ProductListingPage = {};
+type ProductListingPageProps = {
+  searchParams?: Record<string, string | string[]>;
+};
 
-export default async function ProductListingPage({}: ProductListingPage) {
+export default async function ProductListingPage({ searchParams = {} }: ProductListingPageProps) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
   
@@ -15,8 +17,24 @@ export default async function ProductListingPage({}: ProductListingPage) {
   }
 
   const apiUrl = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+  
+  // Get search params from props
+  const searchQuery = typeof searchParams.q === "string" ? searchParams.q : '';
+  const categoriesFilter = typeof searchParams.categories === "string" ? searchParams.categories : '';
+  
+  // Build the URL with query parameters
+  const url = new URL(`${apiUrl}/api/wine`);
+  url.searchParams.append('userId', user.id);
+  
+  if (searchQuery) {
+    url.searchParams.append('q', searchQuery);
+  }
+  
+  if (categoriesFilter) {
+    url.searchParams.append('categories', categoriesFilter);
+  }
 
-  const response = await fetch(`${apiUrl}/api/wine?userId=${user.id}`, {
+  const response = await fetch(url.toString(), {
     cache: 'no-store',
   });
 
