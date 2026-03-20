@@ -80,7 +80,7 @@ export default function HeroVideoDialog({
   return (
     <div className={cn("relative", className)}>
       <div
-        className="relative cursor-pointer group rounded-md p-2 ring-1 ring-slate-200/50 dark:bg-gray-900/70 dark:ring-white/10 backdrop-blur-md"
+        className="relative cursor-pointer group overflow-hidden rounded-2xl"
         onClick={() => setIsVideoOpen(true)}
       >
         <Image
@@ -88,17 +88,14 @@ export default function HeroVideoDialog({
           alt={thumbnailAlt}
           width={1920}
           height={1080}
-          className="transition-all duration-200 group-hover:brightness-[0.8] ease-out rounded-md border"
+          className="transition-all duration-300 group-hover:brightness-75 ease-out rounded-2xl"
         />
-        <div className="absolute inset-0 flex items-center justify-center group-hover:scale-100 scale-[0.7] transition-all duration-200 ease-out rounded-2xl">
-          <div className="z-30 bg-primary/5 flex items-center justify-center rounded-full backdrop-blur-md size-28">
-            <div
-              className={`flex items-center justify-center bg-gradient-to-b from-transparent to-white shadow-md rounded-full size-20 transition-all ease-out duration-200 relative group-hover:scale-[1]`}
-            >
-              <Play className="size-8 text-primary fill-primary group-hover:scale-105 scale-100 transition-transform duration-200 ease-out" />
-            </div>
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="z-30 flex items-center justify-center rounded-full backdrop-blur-sm bg-white/10 ring-1 ring-white/30 size-20 transition-all duration-300 ease-out group-hover:scale-110 group-hover:bg-white/20">
+            <Play className="size-7 text-white fill-white ml-1 transition-transform duration-200 ease-out" />
           </div>
         </div>
+        <div className="absolute inset-0 rounded-2xl bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
       <AnimatePresence>
         {isVideoOpen && (

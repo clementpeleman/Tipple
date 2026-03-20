@@ -156,7 +156,7 @@ function HeroImage() {
         videoSrc="https://www.youtube.com/embed/6lEv0FlpD3I?si=vx0de8wuzGlZFsbs"
         thumbnailSrc="/showcase_2_hiw.png"
         thumbnailAlt="Hero Video"
-        className="border rounded-lg shadow-lg max-w-screen-lg mt-16"
+        className="rounded-2xl max-w-screen-lg mt-16 shadow-2xl shadow-black/30 ring-1 ring-white/10"
       />
     </motion.div>
   );
@@ -172,7 +172,7 @@ export default function Hero2() {
 
   return (
     <section id="hero">
-      <div className="relative flex w-full flex-col items-center justify-start px-4 pt-24 sm:px-6 sm:pt-24 md:pt-32 lg:px-8">
+      <div className="relative flex w-full max-w-6xl mx-auto flex-col items-center justify-start px-4 pt-24 sm:px-6 sm:pt-24 md:pt-32 lg:px-8">
         <HeroPill />
         <HeroTitles />
         <HeroCTA />
